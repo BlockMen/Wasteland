@@ -378,6 +378,51 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		end
 
 	end
+	--snow caps
+	local SNOW_START = 25
+	if (maxp.y -1) > SNOW_START then
+	 local cnt = maxp.x-minp.x
+		for yi=0, cnt do
+		 if minp.y+yi>SNOW_START then
+		  for xi=0, cnt do
+		   for zi=0, cnt do
+		   local p = {x=minp.x+xi,y=minp.y+yi,z=minp.z+zi}
+		    local n = minetest.get_node(p)
+		    p.y = p.y+1
+		    local nn = minetest.get_node(p)
+		   --p.y = p.y-1
+		    if nn and nn.name == "air" and n and n.name and minetest.registered_nodes[n.name].is_ground_content and n.name ~= "default:snow" then
+		     minetest.set_node(p, {name="default:snow"})
+		    end
+		   end
+		  end
+		 end
+		end
+
+	end
+
+	--minerals
+	local MINERAL_MAX = -11
+	--if maxp.y < MINERAL_MAX then
+	 local cnt = maxp.x-minp.x
+		for yi=0, cnt do
+		 if minp.y+yi<MINERAL_MAX then
+		  for xi=0, cnt do
+		   for zi=0, cnt do
+		   local p = {x=minp.x+xi,y=minp.y+yi,z=minp.z+zi}
+		    local n = minetest.get_node(p)
+		    p.y = p.y+1
+		    local nn = minetest.get_node(p)
+		    p.y = p.y-1
+		    if nn and nn.name == "air" and n and n.name and n.name == "default:sand" then
+		     minetest.set_node(p, {name="default:mineralsand"})
+		    end
+		   end
+		  end
+		 end
+		end
+
+	--end
 
 
 		-- Generate grass

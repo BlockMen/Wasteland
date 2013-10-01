@@ -110,6 +110,10 @@ minetest.register_node("default:grass", {
 minetest.register_node("default:dirt_with_snow", {
 	description = "Dirt with Snow",
 	tiles = {"default_snow.png", "default_dirt.png", "default_dirt.png^default_snow_side.png"},
+	paramtype = "light",
+	--drawtype = "nodebox",
+	--node_box = {type="fixed",
+	--	    fixed = {-0.5,-0.5,-0.5,0.5,0.5,0.5}},
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'default:dirt_with_grass',
@@ -134,6 +138,26 @@ minetest.register_node("default:sand", {
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1},
 	sounds = default.node_sound_sand_defaults(),
+})
+
+minetest.register_node("default:mineralsand", {
+	description = "Sand",
+	tiles = {"default_mineralsand.png"},
+	is_ground_content = true,
+	groups = {crumbly=3, falling_node=1, sand=1},
+	sounds = default.node_sound_sand_defaults(),
+	drop = {
+		max_items = 1,
+		items = {
+			{
+				items = {'default:minerals', 'default:sand'},
+				rarity = 3,
+			},
+			{
+				items = {'default:sand'},
+			}
+		}
+	},
 })
 
 minetest.register_node("default:desert_sand", {
@@ -430,12 +454,12 @@ minetest.register_node("default:water_flowing", {
 		{
 			image="default_water_flowing_animated.png",
 			backface_culling=false,
-			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=0.8}
+			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=0.5}
 		},
 		{
 			image="default_water_flowing_animated.png",
 			backface_culling=true,
-			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=0.8}
+			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=0.5}
 		},
 	},
 	alpha = WATER_ALPHA,
@@ -1242,12 +1266,12 @@ minetest.register_node("default:snow", {
 		footstep = {name="default_snow_footstep", gain=0.25},
 		dug = {name="default_snow_footstep", gain=0.75},
 	}),
-	on_construct = function(pos)
+	--[[after_construct = function(pos)
 		pos.y = pos.y - 1
 		if minetest.get_node(pos).name == "default:dirt_with_grass" then
 			minetest.set_node(pos, {name="default:dirt_with_snow"})
 		end
-	end,
+	end,]]
 })
 minetest.register_alias("snow", "default:snow")
 

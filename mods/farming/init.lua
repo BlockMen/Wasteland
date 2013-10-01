@@ -68,7 +68,7 @@ minetest.register_abm({
 
 })
 
-minetest.register_abm({
+--[[minetest.register_abm({
 	nodenames = {"group:water"},
 	interval = 2,
 	chance = 200,
@@ -88,12 +88,31 @@ minetest.register_abm({
 		end
 	end
 
+})]]
+
+minetest.register_abm({
+	nodenames = {"default:dirt_with_grass"},
+	interval = 2,
+	chance = 200,
+	action = function(pos, node)
+		if (minetest.find_node_near(pos, 6, {"group:water"}) and minetest.find_node_near(pos, 1, {"default:grass"})) or minetest.find_node_near(pos, 1, {"group:water"}) then
+			pos.y = pos.y+1
+			local nn = minetest.get_node(pos).name
+			local ll = 0
+			ll=minetest.get_node_light(pos)
+			pos.y = pos.y-1
+			if ll and ll>8 and minetest.registered_nodes[nn] and minetest.get_item_group(nn, "water") ~= 3 then
+				minetest.set_node(pos, {name="default:grass"})
+			end
+		end
+	end
+
 })
 
 minetest.register_abm({
 	nodenames = {"default:grass"},
 	interval = 2,
-	chance = 50,
+	chance = 20,
 	action = function(pos, node)
 		if not minetest.find_node_near(pos, 6, {"group:water"}) then
 			minetest.set_node(pos, {name="default:dirt_with_grass"})

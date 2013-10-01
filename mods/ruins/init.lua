@@ -2,7 +2,8 @@ local chest_stuff = {
 	{name="default:old_apple", max = 1, rarity=1},
 	{name="default:old_bread", max = 1, rarity=6},
 	{name="farming:seed_wheat", max = 1, rarity=5},
-	{name="bucket:bucket_water", max = 1, rarity=7},
+	{name="bucket:bucket", max = 1, rarity=7},
+	{name="bucket:bucket_water", max = 1, rarity=9},
 	{name="default:sword_wood", max = 1, rarity=9},
 	{name="default:sapling", max = 1, rarity=10}
 
@@ -36,6 +37,27 @@ local function fill_chest(pos)
 						cnt = cnt+1
 					 end
 					end
+				end
+			end
+		end
+	end)
+end
+
+local function fill_grave(pos)
+	minetest.after(2, function()
+		local n = minetest.get_node(pos)
+		local cnt = 0
+		if n ~= nil then
+			local meta = minetest.get_meta(pos)
+			meta:set_string("formspec",frm)
+			local inv = meta:get_inventory()
+			inv:set_size("main", 8*4)
+			while cnt < 1 do
+				local stuff = chest_stuff[math.random(1,#chest_stuff)]
+				local stack = {name=stuff.name, count = 1}
+				if math.random(1,stuff.rarity) == stuff.rarity then
+					inv:set_stack("main", math.random(1,32), stack)
+					cnt = cnt+1
 				end
 			end
 		end
@@ -140,6 +162,13 @@ if math.random(1,10) > 8 then wood = true end
  door(pos, size)
 end
 
+local function make_grave(pos)
+	print(dump(pos))
+	minetest.add_node(pos, {name="bones:bones", param2=param2})
+	fill_grave({x=pos.x,y=pos.y,z=pos.z})
+	pos.y = pos.y+1
+	minetest.set_node(pos, {name="bones:gravestone", param2=param2})
+end
 
 
 local perl1 = {
@@ -172,6 +201,20 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		 if not p2 or p2 == nil or p2.y < 0 then return end
 		
 		  make(p2,{x=math.random(6,9),z=math.random(6,9)})
+		end)
+	end
+	if noise1 < -0.45 or noise1 > 0.45 then
+		
+		local mpos = {x=math.random(minp.x,maxp.x), y=math.random(minp.y,maxp.y), z=math.random(minp.z,maxp.z)}
+		minetest.after(0.5, function()
+		 p2 = minetest.find_node_near(mpos, 25, {"default:dirt_with_grass"})	
+		 if not p2 or p2 == nil or p2.y < 0 then return end
+		  p2.y = p2.y+1
+		  local n = minetest.get_node(p2)
+		  p2.y = p2.y-1
+		  if n and n.name and n.name == "air" then
+			make_grave(p2)
+		  end
 		end)
 	end
 end)
