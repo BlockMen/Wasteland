@@ -2,7 +2,7 @@ local chest_stuff = {
 	{name="default:old_apple", max = 1, rarity=1},
 	{name="default:old_bread", max = 1, rarity=6},
 	{name="farming:seed_wheat", max = 1, rarity=5},
-	{name="bucket:bucket", max = 1, rarity=7},
+	{name="bucket:bucket_empty", max = 1, rarity=7},
 	{name="bucket:bucket_water", max = 1, rarity=9},
 	{name="default:sword_wood", max = 1, rarity=9},
 	{name="default:sapling", max = 1, rarity=10}
