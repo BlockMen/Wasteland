@@ -2,101 +2,23 @@ local n
 local n2
 local pos
 
-function apple_leave()
-	if math.random(0, 10) == 3 then
-		return {name = "default:apple"}
-	else
-		return {name = "default:leaves"}
-	end
-end
-
-function air_leave()
-	if math.random(0, 50) == 3 then
-		return {name = "air"}
-	else
-		return {name = "default:leaves"}
-	end
-end
-
-function generate_tree(pos, trunk, leaves)
-	pos.y = pos.y-1
-	local nodename = minetest.env:get_node(pos).name
-		
-	pos.y = pos.y+1
-
-	node = {name = ""}
-	for dy=1,4 do
-		pos.y = pos.y+dy
-		if minetest.env:get_node(pos).name ~= "air" then
+function generate_tree(pos)
+	
+		local nu =  minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name
+		local is_soil = minetest.get_item_group(nu, "soil")
+		if is_soil == 0 then
 			return
 		end
-		pos.y = pos.y-dy
-	end
-	node = {name = "default:tree"}
-	for dy=0,4 do
-		pos.y = pos.y+dy
-		minetest.env:set_node(pos, node)
-		pos.y = pos.y-dy
-	end
-
-	node = {name = "default:leaves"}
-	pos.y = pos.y+3
-	local rarity = 0
-	if math.random(0, 10) == 3 then
-		rarity = 1
-	end
-	for dx=-2,2 do
-		for dz=-2,2 do
-			for dy=0,3 do
-				pos.x = pos.x+dx
-				pos.y = pos.y+dy
-				pos.z = pos.z+dz
-
-				if dx == 0 and dz == 0 and dy==3 then
-					if minetest.env:get_node(pos).name == "air" and math.random(1, 5) <= 4 then
-						minetest.env:set_node(pos, node)
-						if rarity == 1 then
-							minetest.env:set_node(pos, apple_leave())
-						else
-							minetest.env:set_node(pos, air_leave())
-						end
-					end
-				elseif dx == 0 and dz == 0 and dy==4 then
-					if minetest.env:get_node(pos).name == "air" and math.random(1, 5) <= 4 then
-						minetest.env:set_node(pos, node)
-						if rarity == 1 then
-							minetest.env:set_node(pos, apple_leave())
-						else
-							minetest.env:set_node(pos, air_leave())
-						end
-					end
-				elseif math.abs(dx) ~= 2 and math.abs(dz) ~= 2 then
-					if minetest.env:get_node(pos).name == "air" then
-						minetest.env:set_node(pos, node)
-						if rarity == 1 then
-							minetest.env:set_node(pos, apple_leave())
-						else
-							minetest.env:set_node(pos, air_leave())
-						end
-					end
-				else
-					if math.abs(dx) ~= 2 or math.abs(dz) ~= 2 then
-						if minetest.env:get_node(pos).name == "air" and math.random(1, 5) <= 4 then
-							minetest.env:set_node(pos, node)
-						if rarity == 1 then
-							minetest.env:set_node(pos, apple_leave())
-						else
-							minetest.env:set_node(pos, air_leave())
-						end
-						end
-					end
-				end
-				pos.x = pos.x-dx
-				pos.y = pos.y-dy
-				pos.z = pos.z-dz
-			end
-		end
-	end
+		
+		minetest.log("action", "A sapling grows into a tree at "..minetest.pos_to_string(pos))
+		local vm = minetest.get_voxel_manip()
+		local minp, maxp = vm:read_from_map({x=pos.x-16, y=pos.y, z=pos.z-16}, {x=pos.x+16, y=pos.y+16, z=pos.z+16})
+		local a = VoxelArea:new{MinEdge=minp, MaxEdge=maxp}
+		local data = vm:get_data()
+		default.grow_tree(data, a, pos, math.random(1, 4) == 1, math.random(1,100000))
+		vm:set_data(data)
+		vm:write_to_map(data)
+		vm:update_map()
 end
 
 local plant_tab = {}
@@ -130,7 +52,7 @@ if n.name == "default:sapling" then
 	if minetest.env:get_node_light(pos) then
 		if math.random(1,3) < 3 then
 			minetest.env:set_node(pos, {name="air"})
-			generate_tree(pos, "default:tree", "default:leaves")
+			generate_tree(pos)
 		end
 	end
 elseif string.find(n.name, "farming:wheat_") ~= nil then
