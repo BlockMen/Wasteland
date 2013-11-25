@@ -1,6 +1,6 @@
 WASTELAND - a game for the Minetest game engine
 ===============================================
-Version 0.2
+Version 0.2.1
 
 A long time ago there where trees, grass and the ocean. But that is all gone, everything that is left is a WASTELAND and 
 
