@@ -222,6 +222,7 @@ minetest.register_node("default:brick", {
 minetest.register_node("default:tree", {
 	description = "Tree",
 	tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
+	is_ground_content = false,
 	groups = {tree=1,choppy=2,oddly_breakable_by_hand=1,flammable=2},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -229,6 +230,7 @@ minetest.register_node("default:tree", {
 minetest.register_node("default:dead_tree", {
 	description = "Dead Tree",
 	tiles = {"default_dead_tree_top.png", "default_dead_tree_top.png", "default_dead_tree.png"},
+	is_ground_content = false,
 	groups = {tree=1,choppy=2,oddly_breakable_by_hand=2,flammable=1},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -236,6 +238,7 @@ minetest.register_node("default:dead_tree", {
 minetest.register_node("default:jungletree", {
 	description = "Jungle Tree",
 	tiles = {"default_jungletree_top.png", "default_jungletree_top.png", "default_jungletree.png"},
+	is_ground_content = false,
 	groups = {tree=1,choppy=2,oddly_breakable_by_hand=1,flammable=2},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -252,6 +255,7 @@ minetest.register_node("default:jungleleaves", {
 	drawtype = "allfaces_optional",
 	visual_scale = 1.3,
 	tiles = {"default_jungleleaves.png"},
+	is_ground_content = false,
 	paramtype = "light",
 	groups = {snappy=3, leafdecay=3, flammable=2, leaves=1},
 	drop = {
@@ -277,6 +281,7 @@ minetest.register_node("default:junglesapling", {
 	drawtype = "plantlike",
 	visual_scale = 1.0,
 	tiles = {"default_junglesapling.png"},
+	is_ground_content = true,
 	inventory_image = "default_junglesapling.png",
 	wield_image = "default_junglesapling.png",
 	paramtype = "light",
@@ -297,6 +302,7 @@ minetest.register_node("default:junglegrass", {
 	drawtype = "plantlike",
 	visual_scale = 1.3,
 	tiles = {"default_junglegrass.png"},
+	is_ground_content = true,
 	inventory_image = "default_junglegrass.png",
 	wield_image = "default_junglegrass.png",
 	paramtype = "light",
@@ -316,6 +322,7 @@ minetest.register_node("default:leaves", {
 	drawtype = "allfaces_optional",
 	visual_scale = 1.3,
 	tiles = {"default_leaves.png"},
+	is_ground_content = false,
 	paramtype = "light",
 	groups = {snappy=3, leafdecay=3, flammable=2, leaves=1},
 	drop = {
@@ -372,6 +379,7 @@ minetest.register_node("default:glass", {
 	description = "Glass",
 	drawtype = "glasslike",
 	tiles = {"default_glass.png"},
+	is_ground_content = false,
 	inventory_image = minetest.inventorycube("default_glass.png"),
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -383,6 +391,7 @@ minetest.register_node("default:fence_wood", {
 	description = "Wooden Fence",
 	drawtype = "fencelike",
 	tiles = {"default_wood.png"},
+	is_ground_content = false,
 	inventory_image = "default_fence.png",
 	wield_image = "default_fence.png",
 	paramtype = "light",
@@ -398,6 +407,7 @@ minetest.register_node("default:rail", {
 	description = "Rail",
 	drawtype = "raillike",
 	tiles = {"default_rail.png", "default_rail_curved.png", "default_rail_t_junction.png", "default_rail_crossing.png"},
+	is_ground_content = true,
 	inventory_image = "default_rail.png",
 	wield_image = "default_rail.png",
 	paramtype = "light",
@@ -414,6 +424,7 @@ minetest.register_node("default:ladder", {
 	description = "Ladder",
 	drawtype = "signlike",
 	tiles = {"default_ladder.png"},
+	is_ground_content = false,
 	inventory_image = "default_ladder.png",
 	wield_image = "default_ladder.png",
 	paramtype = "light",
@@ -591,6 +602,7 @@ minetest.register_node("default:torch", {
 		{name="default_torch_on_ceiling_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}},
 		{name="default_torch_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}}
 	},
+	is_ground_content = false,
 	inventory_image = "default_torch_on_floor.png",
 	wield_image = "default_torch_on_floor.png",
 	paramtype = "light",
@@ -613,6 +625,7 @@ minetest.register_node("default:sign_wall", {
 	description = "Sign",
 	drawtype = "signlike",
 	tiles = {"default_sign_wall.png"},
+	is_ground_content = false,
 	inventory_image = "default_sign_wall.png",
 	wield_image = "default_sign_wall.png",
 	paramtype = "light",
@@ -664,6 +677,7 @@ minetest.register_node("default:chest", {
 	description = "Chest",
 	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "default_chest_front.png"},
+	is_ground_content = false,
 	paramtype2 = "facedir",
 	groups = {choppy=2,oddly_breakable_by_hand=2},
 	legacy_facedir_simple = true,
@@ -705,6 +719,7 @@ minetest.register_node("default:chest_locked", {
 	description = "Locked Chest",
 	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "default_chest_lock.png"},
+	is_ground_content = false,
 	paramtype2 = "facedir",
 	groups = {choppy=2,oddly_breakable_by_hand=2},
 	legacy_facedir_simple = true,
@@ -808,6 +823,7 @@ minetest.register_node("default:furnace", {
 	description = "Furnace",
 	tiles = {"default_furnace_top.png", "default_furnace_bottom.png", "default_furnace_side.png",
 		"default_furnace_side.png", "default_furnace_side.png", "default_furnace_front.png"},
+	is_ground_content = false,
 	paramtype2 = "facedir",
 	groups = {cracky=2},
 	legacy_facedir_simple = true,
@@ -876,6 +892,7 @@ minetest.register_node("default:furnace_active", {
 	description = "Furnace",
 	tiles = {"default_furnace_top.png", "default_furnace_bottom.png", "default_furnace_side.png",
 		"default_furnace_side.png", "default_furnace_side.png", "default_furnace_front_active.png"},
+	is_ground_content = false,
 	paramtype2 = "facedir",
 	light_source = 8,
 	drop = "default:furnace",
@@ -1178,6 +1195,7 @@ minetest.register_node("default:apple", {
 	drawtype = "plantlike",
 	visual_scale = 1.0,
 	tiles = {"default_apple.png"},
+	is_ground_content = false,
 	inventory_image = "default_apple.png",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -1232,7 +1250,6 @@ minetest.register_node("default:dry_shrub", {
 		--}
 	},
 })
-
 
 minetest.register_node("default:ice", {
 	description = "Ice",
