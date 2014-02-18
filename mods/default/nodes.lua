@@ -90,7 +90,7 @@ minetest.register_node("default:desert_stonebrick", {
 
 minetest.register_node("default:dirt_with_grass", {
 	description = "Dirt",
-	tiles = {"default_dirt.png"},
+	tiles = {"default_dry_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1},
 	sounds = default.node_sound_dirt_defaults(),
@@ -98,7 +98,7 @@ minetest.register_node("default:dirt_with_grass", {
 
 minetest.register_node("default:grass", {
 	description = "Dirt with Grass",
-	tiles = {"default_grass.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
+	tiles = {"default_grass.png", "default_dry_dirt.png", "default_dry_dirt.png^default_grass_side.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1,not_in_creative_inventory=1},
 	drop = 'default:dirt_with_grass',
@@ -109,7 +109,7 @@ minetest.register_node("default:grass", {
 
 minetest.register_node("default:dirt_with_snow", {
 	description = "Dirt with Snow",
-	tiles = {"default_snow.png", "default_dirt.png", "default_dirt.png^default_snow_side.png"},
+	tiles = {"default_snow.png", "default_dry_dirt.png", "default_dry_dirt.png^default_snow_side.png"},
 	paramtype = "light",
 	--drawtype = "nodebox",
 	--node_box = {type="fixed",
@@ -125,7 +125,7 @@ minetest.register_alias("dirt_with_snow", "default:dirt_with_snow")
 
 minetest.register_node("default:dirt", {
 	description = "Dirt",
-	tiles = {"default_dirt.png"},
+	tiles = {"default_dry_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1},
 	drop = 'default:dirt_with_grass',
