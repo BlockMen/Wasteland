@@ -339,9 +339,41 @@ function default.make_tree(pos)
 	end
 end
 
+local dirt_snow = minetest.get_content_id("default:dirt_with_snow")
+local dirt_grass = minetest.get_content_id("default:dirt_with_grass")
+local leaves = minetest.get_content_id("default:leaves")
+local snow = minetest.get_content_id("default:snow")
+local air = minetest.get_content_id("air")
 
+local SNOW_START = 24
+
+local function make_snow(min,max,data,va,rnd)
+	local cnt = max.x-min.x
+	for yi=0, cnt do
+	 if max.y-yi>=SNOW_START+rnd then
+	  for xi=0, cnt do
+	   for zi=0, cnt do
+		local p = {x=min.x+xi,y=max.y-yi,z=min.z+zi}
+		local pi = va:indexp(p)
+		if data[pi] == dirt_grass then
+			data[pi] = dirt_snow
+		end
+		if data[pi] == dirt_snow then-- and p.y > SNOW_START+3+rnd then
+			p.y = p.y+1
+			local opi = va:indexp(p)
+			if data[opi] == air then-- and data[pi] ~= air then
+				data[pi] = snow
+			end
+		end
+	   end
+	  end
+	 end
+	end
+	return data
+end
 
 minetest.register_on_generated(function(minp, maxp, seed)
+	local pr = PseudoRandom(seed+1)
 	if maxp.y >= 2 and minp.y <= 0 then
 		-- old trees
 		local perlin1 = minetest.get_perlin(230, 3, 0.6, 100)
@@ -357,7 +389,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			-- Determine cactus amount from perlin noise
 			local cactus_amount = math.floor(perlin1:get2d({x=x0, y=z0}) * 4 - 3)
 			-- Find random positions for cactus based on this random
-			local pr = PseudoRandom(seed+1)
 			for i=0,cactus_amount do
 				local x = pr:next(x0, x1)
 				local z = pr:next(z0, z1)
@@ -378,29 +409,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		end
 
 	end
-	--snow caps
-	local SNOW_START = 25
-	if (maxp.y -1) > SNOW_START then
-	 local cnt = maxp.x-minp.x
-		for yi=0, cnt do
-		 if minp.y+yi>SNOW_START then
-		  for xi=0, cnt do
-		   for zi=0, cnt do
-		   local p = {x=minp.x+xi,y=minp.y+yi,z=minp.z+zi}
-		    local n = minetest.get_node(p)
-		    p.y = p.y+1
-		    local nn = minetest.get_node(p)
-		   --p.y = p.y-1
-		    if nn and nn.name == "air" and n and n.name and minetest.registered_nodes[n.name].is_ground_content and n.name ~= "default:snow" then
-		     minetest.set_node(p, {name="default:snow"})
-		    end
-		   end
-		  end
-		 end
-		end
-
-	end
-
 	--minerals
 	local MINERAL_MAX = -11
 	--if maxp.y < MINERAL_MAX then
@@ -469,6 +477,17 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			end
 		end
 		end
-		
+
+	-- snowcaps
+	local snow_height_rnd = pr:next(0,3)
+	if maxp.y >= SNOW_START then--+snow_height_rnd then
+		local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
+		local data = vm:get_data()
+		local va = VoxelArea:new{ MinEdge = emin, MaxEdge = emax }
+		data = make_snow(minp,maxp,data, va,snow_height_rnd)
+		vm:set_data(data)
+		vm:calc_lighting(emin,emax)
+		vm:write_to_map(data)
+	end		
 end)
 
