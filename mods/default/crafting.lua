@@ -90,15 +90,6 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = 'default:pick_mese',
-	recipe = {
-		{'default:mese_crystal', 'default:mese_crystal', 'default:mese_crystal'},
-		{'', 'default:stick', ''},
-		{'', 'default:stick', ''},
-	}
-})
-
-minetest.register_craft({
 	output = 'default:pick_diamond',
 	recipe = {
 		{'default:diamond', 'default:diamond', 'default:diamond'},
@@ -138,15 +129,6 @@ minetest.register_craft({
 	output = 'default:shovel_bronze',
 	recipe = {
 		{'default:bronze_ingot'},
-		{'default:stick'},
-		{'default:stick'},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:shovel_mese',
-	recipe = {
-		{'default:mese_crystal'},
 		{'default:stick'},
 		{'default:stick'},
 	}
@@ -198,15 +180,6 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = 'default:axe_mese',
-	recipe = {
-		{'default:mese_crystal', 'default:mese_crystal'},
-		{'default:mese_crystal', 'default:stick'},
-		{'', 'default:stick'},
-	}
-})
-
-minetest.register_craft({
 	output = 'default:axe_diamond',
 	recipe = {
 		{'default:diamond', 'default:diamond'},
@@ -247,15 +220,6 @@ minetest.register_craft({
 	recipe = {
 		{'default:bronze_ingot'},
 		{'default:bronze_ingot'},
-		{'default:stick'},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:sword_mese',
-	recipe = {
-		{'default:mese_crystal'},
-		{'default:mese_crystal'},
 		{'default:stick'},
 	}
 })
@@ -484,29 +448,6 @@ minetest.register_craft({
 		{'default:stick', '', 'default:stick'},
 		{'default:stick', 'default:stick', 'default:stick'},
 		{'default:stick', '', 'default:stick'},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:mese',
-	recipe = {
-		{'default:mese_crystal', 'default:mese_crystal', 'default:mese_crystal'},
-		{'default:mese_crystal', 'default:mese_crystal', 'default:mese_crystal'},
-		{'default:mese_crystal', 'default:mese_crystal', 'default:mese_crystal'},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:mese_crystal 9',
-	recipe = {
-		{'default:mese'},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:mese_crystal_fragment 9',
-	recipe = {
-		{'default:mese_crystal'},
 	}
 })
 

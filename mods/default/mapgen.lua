@@ -23,7 +23,7 @@ minetest.register_alias("mapgen_dirt_with_grass", "default:dirt_with_grass")
 minetest.register_alias("mapgen_junglegrass", "default:junglegrass")
 minetest.register_alias("mapgen_stone_with_coal", "default:stone_with_coal")
 minetest.register_alias("mapgen_stone_with_iron", "default:stone_with_iron")
-minetest.register_alias("mapgen_mese", "default:mese")
+minetest.register_alias("mapgen_mese", "default:stone")
 minetest.register_alias("mapgen_desert_sand", "default:dirt_with_grass")
 minetest.register_alias("mapgen_desert_stone", "default:stone")
 minetest.register_alias("mapgen_stair_cobble", "stairs:stair_cobble")
@@ -98,42 +98,6 @@ minetest.register_ore({
 	clust_size     = 6,
 	height_min     = -31000,
 	height_max     = -64,
-	flags          = "absheight",
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "default:stone_with_mese",
-	wherein        = "default:stone",
-	clust_scarcity = 18*18*18,
-	clust_num_ores = 3,
-	clust_size     = 2,
-	height_min     = -255,
-	height_max     = -64,
-	flags          = "absheight",
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "default:stone_with_mese",
-	wherein        = "default:stone",
-	clust_scarcity = 14*14*14,
-	clust_num_ores = 5,
-	clust_size     = 3,
-	height_min     = -31000,
-	height_max     = -256,
-	flags          = "absheight",
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "default:mese",
-	wherein        = "default:stone",
-	clust_scarcity = 36*36*36,
-	clust_num_ores = 3,
-	clust_size     = 2,
-	height_min     = -31000,
-	height_max     = -1024,
 	flags          = "absheight",
 })
 

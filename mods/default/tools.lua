@@ -12,6 +12,8 @@ local function get_groupcaps(uses, group, table)
 			[default.dig.gravel] = 0.9,
 			[default.dig.clay] = 0.9,
 			[default.dig.nethersand] = 0.75,
+			[default.dig.snow] = 0.5,
+			[default.dig.hardclay] = 6.25,
 		}, uses=uses},
 		choppy = {times={
 			[default.dig.tree] = 3,
@@ -36,6 +38,7 @@ local function get_groupcaps(uses, group, table)
 			[default.dig.glowstone] = 0.45,
 			[default.dig.lever] = 0.75,
 			[default.dig.button] = 0.75,
+			[default.dig.instant] = 0,
 		}, uses=uses},
 	}
 	if group and table then

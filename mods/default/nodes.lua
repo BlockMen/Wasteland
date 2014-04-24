@@ -47,15 +47,6 @@ minetest.register_node("default:stone_with_copper", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("default:stone_with_mese", {
-	description = "Mese Ore",
-	tiles = {"default_stone.png^default_mineral_mese.png"},
-	is_ground_content = true,
-	groups = {cracky=1},
-	drop = "default:mese_crystal",
-	sounds = default.node_sound_stone_defaults(),
-})
-
 minetest.register_node("default:stone_with_gold", {
 	description = "Gold Ore",
 	tiles = {"default_stone.png^default_mineral_gold.png"},
@@ -100,7 +91,7 @@ minetest.register_node("default:grass", {
 	description = "Dirt with Grass",
 	tiles = {"default_grass.png", "default_dry_dirt.png", "default_dry_dirt.png^default_grass_side.png"},
 	is_ground_content = true,
-	groups = {crumbly=default.dig.grass,soil=1,not_in_creative_inventory=1},
+	groups = {dig=default.dig.instant,soil=1,not_in_creative_inventory=1},
 	drop = 'default:dirt_with_grass',
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.25},
@@ -290,7 +281,7 @@ minetest.register_node("default:junglesapling", {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, 0.35, 0.3}
 	},
-	groups = {snappy=default.dig.grass,flammable=2,attached_node=1},
+	groups = {dig=default.dig.instant,flammable=2,attached_node=1},
 	sounds = default.node_sound_leaves_defaults(),
 })
 -- aliases for tree growing abm in content_abm.cpp
@@ -309,7 +300,7 @@ minetest.register_node("default:junglegrass", {
 	walkable = false,
 	buildable_to = true,
 	is_ground_content = true,
-	groups = {snappy=default.dig.grass,flammable=2,flora=1,attached_node=1},
+	groups = {dig=default.dig.instant,flammable=2,flora=1,attached_node=1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -371,7 +362,7 @@ minetest.register_node("default:papyrus", {
 minetest.register_node("default:bookshelf", {
 	description = "Bookshelf",
 	tiles = {"default_wood.png", "default_wood.png", "default_bookshelf.png"},
-	groups = {choppy=default.dig.bookshelf,flammable=3},
+	groups = {dig=default.dig.instant,flammable=3},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -622,7 +613,7 @@ minetest.register_node("default:torch", {
 		wall_bottom = {-0.1, -0.5, -0.1, 0.1, -0.5+0.6, 0.1},
 		wall_side = {-0.5, -0.3, -0.1, -0.5+0.3, 0.3, 0.1},
 	},
-	groups = {dig=default.dig.grass,flammable=1,attached_node=1,hot=2},
+	groups = {dig=default.dig.instant,flammable=1,attached_node=1,hot=2},
 	legacy_wallmounted = true,
 	sounds = default.node_sound_defaults(),
 })
@@ -1119,14 +1110,6 @@ minetest.register_node("default:bronzeblock", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("default:mese", {
-	description = "Mese Block",
-	tiles = {"default_mese_block.png"},
-	is_ground_content = true,
-	groups = {cracky=1,level=2},
-	sounds = default.node_sound_stone_defaults(),
-})
-minetest.register_alias("default:mese_block", "default:mese")
 
 minetest.register_node("default:goldblock", {
 	description = "Gold Block",
@@ -1175,7 +1158,7 @@ minetest.register_node("default:sapling", {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, 0.35, 0.3}
 	},
-	groups = {dig=default.dig.grass,flammable=2,attached_node=1},
+	groups = {dig=default.dig.instant,flammable=2,attached_node=1},
 	sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -1193,7 +1176,7 @@ minetest.register_node("default:apple", {
 		type = "fixed",
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0, 0.2}
 	},
-	groups = {dig=default.dig.grass,fleshy=3,flammable=2,leafdecay=3,leafdecay_drop=1},
+	groups = {dig=default.dig.instant,fleshy=3,flammable=2,leafdecay=3,leafdecay_drop=1},
 	on_use = minetest.item_eat(1),
 	sounds = default.node_sound_leaves_defaults(),
 	after_place_node = function(pos, placer, itemstack)
@@ -1225,7 +1208,7 @@ minetest.register_node("default:dry_shrub", {
 	paramtype = "light",
 	walkable = false,
 	buildable_to = true,
-	groups = {dig=default.dig.grass,flammable=3,attached_node=1},
+	groups = {dig=default.dig.instant,flammable=3,attached_node=1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",

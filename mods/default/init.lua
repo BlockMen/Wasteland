@@ -43,6 +43,7 @@ default.dig = {
 	snow = 6,
 	snowblock = 7,
 	nethersand = 8,
+	hardclay = 9,
 
 	-- Choppy (axe)
 	tree = 1,--+deadtree
@@ -67,6 +68,7 @@ default.dig = {
 	glowstone = 5,
 	lever = 6,
 	button = 7,
+	instant = 8,
 }
 
 -- Load files
