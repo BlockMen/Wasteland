@@ -1,6 +1,6 @@
 WASTELAND - a game for the Minetest game engine
 ===============================================
-Version 0.2.1
+Version 0.2.2
 
 A long time ago there where trees, grass and the ocean. But that is all gone, everything that is left is a WASTELAND and 
 
@@ -24,5 +24,5 @@ License of mods, textures, media and sounds)
 See README.txt in each mod directory for information about other authors.
 
 everything else:
-Copyright (C) 2013 by BlockMen (WTFPL)
+Copyright (C) 2013-2014 by BlockMen (WTFPL)
 
