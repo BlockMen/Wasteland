@@ -65,6 +65,9 @@ minetest.register_node("default:stone_with_diamond", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_alias("default:stone_with_mese", "default:stone")
+minetest.register_alias("default:mese", "default:stone_with_gold")
+
 minetest.register_node("default:stonebrick", {
 	description = "Stone Brick",
 	tiles = {"default_stone_brick.png"},
@@ -83,15 +86,15 @@ minetest.register_node("default:dirt_with_grass", {
 	description = "Dirt",
 	tiles = {"default_dry_dirt.png"},
 	is_ground_content = true,
-	groups = {crumbly=default.dig.dirt_with_grass,soil=1},
+	groups = {crumbly=default.dig.dirt,soil=1},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
 minetest.register_node("default:grass", {
 	description = "Dirt with Grass",
-	tiles = {"default_grass.png", "default_dry_dirt.png", "default_dry_dirt.png^default_grass_side.png"},
+	tiles = {"default_grass.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
 	is_ground_content = true,
-	groups = {dig=default.dig.instant,soil=1,not_in_creative_inventory=1},
+	groups = {crumbly=default.dig.dirt_with_grass,soil=1,not_in_creative_inventory=1},
 	drop = 'default:dirt_with_grass',
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.25},
@@ -1088,7 +1091,7 @@ minetest.register_node("default:coalblock", {
 
 minetest.register_node("default:ironblock", {
 	description = "Iron Block",
-	tiles = {"default_steel_block.png"},
+	tiles = {"default_iron_block.png"},
 	is_ground_content = true,
 	groups = {cracky=default.dig.ironblock,level=2},
 	sounds = default.node_sound_stone_defaults(),
