@@ -55,6 +55,7 @@ default.dig = {
 	wooden_door = 7,
 	workbench = 8,
 	pressure_plate_wood=9,
+	deadtree = 10,
 
 	-- Snappy (shears)
 	leaves = 1,

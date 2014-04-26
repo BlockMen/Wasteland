@@ -25,6 +25,7 @@ local function get_groupcaps(uses, group, table)
 			[default.dig.wooden_door] = 4.5,
 			[default.dig.workbench] = 3.75,
 			[default.dig.pressure_plate_wood] = 0.75,
+			[default.dig.deadtree] = 1.5,
 		}, uses=uses},
 		snappy = {times={
 			[default.dig.leaves] = 0.3,
@@ -325,6 +326,7 @@ minetest.register_tool("default:axe_wood", {
 				[default.dig.wooden_door] = 2.25,
 				[default.dig.workbench] = 1.9,
 				[default.dig.pressure_plate_wood] = 0.4,
+				[default.dig.deadtree] = 0.75,
 			}, uses=60/3}
 		),
 		full_punch_interval = 1,
@@ -346,6 +348,7 @@ minetest.register_tool("default:axe_stone", {
 				[default.dig.wooden_door] = 1.15,
 				[default.dig.workbench] = 0.95,
 				[default.dig.pressure_plate_wood] = 0.2,
+				[default.dig.deadtree] = 0.4,
 			}, uses=132/3}
 		),
 		full_punch_interval = 1,
@@ -367,6 +370,7 @@ minetest.register_tool("default:axe_iron", {
 				[default.dig.wooden_door] = 0.75,
 				[default.dig.workbench] = 0.65,
 				[default.dig.pressure_plate_wood] = 0.15,
+				[default.dig.deadtree] = 0.25,
 			}, uses=251/3}
 		),
 		full_punch_interval = 1,
@@ -388,6 +392,7 @@ minetest.register_tool("default:axe_diamond", {
 				[default.dig.wooden_door] = 0.6,
 				[default.dig.workbench] = 0.5,
 				[default.dig.pressure_plate_wood] = 0.1,
+				[default.dig.deadtree] = 0.2,
 			}, uses=1562/3}
 		),
 		full_punch_interval = 1,
@@ -409,6 +414,7 @@ minetest.register_tool("default:axe_gold", {
 				[default.dig.wooden_door] = 0.4,
 				[default.dig.workbench] = 0.35,
 				[default.dig.pressure_plate_wood] = 0.1,
+				[default.dig.deadtree] = 0.15,
 			}, uses=33/3}
 		),
 		full_punch_interval = 1,

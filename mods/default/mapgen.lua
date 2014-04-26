@@ -289,14 +289,18 @@ function default.generate_ore(name, wherein, minp, maxp, seed, chunks_per_volume
 end
 
 
-function default.make_tree(pos)
-	local size = math.random(3,6)
+function make_dead_tree(pos, size)
+	if size == nil then
+		size = math.random(3,6)
+	end
 	for y=0,size-1 do
 		local p = {x=pos.x, y=pos.y+y, z=pos.z}
 		local nn = minetest.get_node(p).name
 		if minetest.registered_nodes[nn] and
-			minetest.registered_nodes[nn].buildable_to then
-			minetest.set_node(p, {name="default:dead_tree"})
+		   minetest.registered_nodes[nn].buildable_to then
+			minetest.after(0.2,function()
+			  minetest.set_node(p, {name="default:dead_tree"})
+			end)
 		else
 			return
 		end
@@ -366,7 +370,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				end
 				-- If desert sand, make cactus
 				if ground_y and minetest.get_node({x=x,y=ground_y,z=z}).name == "default:dirt_with_grass" then
-					default.make_tree({x=x,y=ground_y+1,z=z})
+					make_dead_tree({x=x,y=ground_y+1,z=z})
 				end
 			end
 		end
