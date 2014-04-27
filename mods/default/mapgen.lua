@@ -379,7 +379,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		end
 
 	end
-	--minerals
+	--[[TODO: dont produce that much lags!!minerals
 	local MINERAL_MAX = -11
 	--if maxp.y < MINERAL_MAX then
 	 local cnt = maxp.x-minp.x
@@ -400,10 +400,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		 end
 		end
 
-	--end
+	--end]]
 
 
-		-- Generate grass
+		-- Generate dry grass
 		local perlin1 = minetest.get_perlin(480, 3, 0.6, 100)
 		-- Assume X and Z lengths are equal
 		local divlen = 16
@@ -423,7 +423,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				local z = pr:next(z0, z1)
 				-- Find ground level (0...15)
 				local ground_y = nil
-				for y=30,0,-1 do
+				for y=20,0,-1 do
 					if minetest.get_node({x=x,y=y,z=z}).name ~= "air" then
 						ground_y = y
 						break
