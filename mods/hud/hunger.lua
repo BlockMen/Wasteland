@@ -1,29 +1,18 @@
+-- Keep these for backwards compatibility
 function hud.save_hunger(player)
-	local file = io.open(minetest.get_worldpath().."/hud_"..player:get_player_name().."_hunger", "w+")
-	if file then
-		file:write(hud.hunger[player:get_player_name()])
-		file:close()
-	end
+	hud.set_hunger(player)
 end
-
 function hud.load_hunger(player)
-	local file = io.open(minetest.get_worldpath().."/hud_"..player:get_player_name().."_hunger", "r")
-	if file then
-		hud.hunger[player:get_player_name()] = file:read("*all")
-		file:close()
-		return hud.hunger[player:get_player_name()]
-	else
-		return
-	end
-	
+	hud.get_hunger(player)
 end
 
+-- Poison player
 local function poisenp(tick, time, time_left, player)
 	time_left = time_left + tick
 	if time_left < time then
 		minetest.after(tick, poisenp, tick, time, time_left, player)
 	end
-	if player:get_hp()-1 >= 0 then
+	if player:get_hp()-1 > 0 then
 		player:set_hp(player:get_hp()-1)
 	end
 	
@@ -31,12 +20,13 @@ end
 
 function hud.item_eat(hunger_change, replace_with_item, poisen)
 	return function(itemstack, user, pointed_thing)
-		if itemstack:take_item() ~= nil then
-			local h = tonumber(hud.hunger[user:get_player_name()])
+		if itemstack:take_item() ~= nil and user ~= nil then
+			local name = user:get_player_name()
+			local h = tonumber(hud.hunger[name])
 			h=h+hunger_change
 			if h>30 then h=30 end
-			hud.hunger[user:get_player_name()]=h
-			hud.save_hunger(user)
+			hud.hunger[name]=h
+			hud.set_hunger(user)
 			itemstack:add_item(replace_with_item) -- note: replace_with_item is optional
 			--sound:eat
 			if poisen then
@@ -54,14 +44,17 @@ local function overwrite(name, hunger_change, replace_with_item, poisen)
 	minetest.registered_items[name] = tab
 end
 
-minetest.after(0.5, function()--ensure all other mods get loaded
 overwrite("default:apple", 2)
 overwrite("default:old_apple", 1, "", 1)
 overwrite("default:old_bread", 4, "", 3)
 
 if minetest.get_modpath("farming") ~= nil then
 	overwrite("farming:bread", 4)
+end
 
+if minetest.get_modpath("creatures") ~= nil then
+	overwrite("creatures:flesh", 5)
+	overwrite("creatures:rotten_flesh",  4, "", 3)
 end
 
 if minetest.get_modpath("mobs") ~= nil then
@@ -77,6 +70,15 @@ if minetest.get_modpath("moretrees") ~= nil then
 	overwrite("moretrees:spruce_nuts", 1)
 	overwrite("moretrees:pine_nuts", 1)
 	overwrite("moretrees:fir_nuts", 1)
+end
+
+if minetest.get_modpath("dwarves") ~= nil then
+	overwrite("dwarves:beer", 2)
+	overwrite("dwarves:apple_cider", 1)
+	overwrite("dwarves:midus", 2)
+	overwrite("dwarves:tequila", 2)
+	overwrite("dwarves:tequila_with_lime", 2)
+	overwrite("dwarves:sake", 2)
 end
 
 if minetest.get_modpath("animalmaterials") ~= nil then
@@ -98,6 +100,10 @@ if minetest.get_modpath("fishing") ~= nil then
 	overwrite("fishing:fish_raw", 2)
 	overwrite("fishing:fish", 4)
 	overwrite("fishing:sushi", 6)
+	overwrite("fishing:shark", 4)
+	overwrite("fishing:shark_cooked", 8)
+	overwrite("fishing:pike", 4)
+	overwrite("fishing:pike_cooked", 8)
 end
 
 if minetest.get_modpath("glooptest") ~= nil then
@@ -110,6 +116,30 @@ if minetest.get_modpath("bushes") ~= nil then
 	overwrite("bushes:berry_pie_raw", 3)
 	overwrite("bushes:berry_pie_cooked", 4)
 	overwrite("bushes:basket_pies", 15)
+end
+
+if minetest.get_modpath("bushes_classic") then
+	-- bushes_classic mod, as found in the plantlife modpack
+	local berries = {
+	    "strawberry",
+		"blackberry",
+		"blueberry",
+		"raspberry",
+		"gooseberry",
+		"mixed_berry"}
+	for _, berry in ipairs(berries) do
+		if berry ~= "mixed_berry" then
+			overwrite("bushes:"..berry, 1)
+		end
+		overwrite("bushes:"..berry.."_pie_raw", 2)
+		overwrite("bushes:"..berry.."_pie_cooked", 5)
+		overwrite("bushes:basket_"..berry, 15)
+	end
+end
+
+if minetest.get_modpath("mushroom") ~= nil then
+	overwrite("mushroom:brown", 1)
+	overwrite("mushroom:red", 1, "", 3)
 end
 
 if minetest.get_modpath("docfarming") ~= nil then
@@ -125,10 +155,11 @@ if minetest.get_modpath("farming_plus") ~= nil then
 	overwrite("farming_plus:carrot_item", 3)
 	overwrite("farming_plus:banana", 2)
 	overwrite("farming_plus:orange_item", 2)
-	overwrite("farming_plus:pumpkin_bread", 4)
+	overwrite("farming:pumpkin_bread", 4)
 	overwrite("farming_plus:strawberry_item", 2)
 	overwrite("farming_plus:tomato_item", 2)
-	overwrite("farming_plus:potatoe_item", 4)
+	overwrite("farming_plus:potato_item", 4)
+	overwrite("farming_plus:rhubarb_item", 2)
 end
 
 if minetest.get_modpath("mtfoods") ~= nil then
@@ -159,4 +190,36 @@ if minetest.get_modpath("mtfoods") ~= nil then
 	overwrite("mtfoods:apple_cider", 2)
 	overwrite("mtfoods:cider_rack", 2)
 end
-end)
+
+if minetest.get_modpath("fruit") ~= nil then
+	overwrite("fruit:apple", 2)
+	overwrite("fruit:pear", 2)
+	overwrite("fruit:bananna", 3)
+	overwrite("fruit:orange", 2)
+end
+
+if minetest.get_modpath("mush45") ~= nil then
+	overwrite("mush45:meal", 4)
+end
+
+if minetest.get_modpath("seaplants") ~= nil then
+	overwrite("seaplants:kelpgreen", 1)
+	overwrite("seaplants:kelpbrown", 1)
+	overwrite("seaplants:seagrassgreen", 1)
+	overwrite("seaplants:seagrassred", 1)
+	overwrite("seaplants:seasaladmix", 6)
+	overwrite("seaplants:kelpgreensalad", 1)
+	overwrite("seaplants:kelpbrownsalad", 1)
+	overwrite("seaplants:seagrassgreensalad", 1)
+	overwrite("seaplants:seagrassgreensalad", 1)
+end
+
+if minetest.get_modpath("mobfcooking") ~= nil then
+	overwrite("mobfcooking:cooked_pork", 6)
+	overwrite("mobfcooking:cooked_ostrich", 6)
+	overwrite("mobfcooking:cooked_beef", 6)
+	overwrite("mobfcooking:cooked_chicken", 6)
+	overwrite("mobfcooking:cooked_lamb", 6)
+	overwrite("mobfcooking:cooked_venison", 6)
+	overwrite("mobfcooking:cooked_fish", 6)
+end
