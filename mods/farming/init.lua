@@ -9,7 +9,7 @@ minetest.register_node("farming:soil", {
 	tiles = {"farming_soil.png", "default_dirt.png"},
 	drop = "default:dirt_with_grass",
 	is_ground_content = true,
-	groups = {crumbly=3, not_in_creative_inventory=1, soil=2},
+	groups = {crumbly=default.dig.dirt, not_in_creative_inventory=1, soil=2},
 	sounds = default.node_sound_dirt_defaults(),
 	paramtype = "light",
 })
@@ -19,7 +19,7 @@ minetest.register_node("farming:soil_wet", {
 	tiles = {"farming_soil_wet.png", "farming_soil_wet_side.png"},
 	drop = "default:dirt_with_grass",
 	is_ground_content = true,
-	groups = {crumbly=3, not_in_creative_inventory=1, soil=3},
+	groups = {crumbly=default.dig.dirt, not_in_creative_inventory=1, soil=3},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -353,7 +353,7 @@ for i=1,8 do
 			type = "fixed",
 			fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
 		},
-		groups = {snappy=3,flammable=2,plant=1,wheat=i,not_in_creative_inventory=1,attached_node=1},
+		groups = {dig=default.dig.instant,flammable=2,plant=1,wheat=i,not_in_creative_inventory=1,attached_node=1},
 		sounds = default.node_sound_leaves_defaults(),
 	})
 end
@@ -438,7 +438,7 @@ for i=1,8 do
 			type = "fixed",
 			fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
 		},
-		groups = {snappy=3,flammable=2,plant=1,cotton=i,not_in_creative_inventory=1,attached_node=1},
+		groups = {dig=default.dig.instant,flammable=2,plant=1,cotton=i,not_in_creative_inventory=1,attached_node=1},
 		sounds = default.node_sound_leaves_defaults(),
 	})
 end
