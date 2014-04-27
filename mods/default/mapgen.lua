@@ -354,22 +354,24 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			local z0 = minp.z + math.floor((divz+0)*divlen)
 			local x1 = minp.x + math.floor((divx+1)*divlen)
 			local z1 = minp.z + math.floor((divz+1)*divlen)
-			-- Determine cactus amount from perlin noise
-			local cactus_amount = math.floor(perlin1:get2d({x=x0, y=z0}) * 4 - 3)
-			-- Find random positions for cactus based on this random
-			for i=0,cactus_amount do
+			-- Determine dead tree amount from perlin noise
+			local amount = math.floor(perlin1:get2d({x=x0, y=z0}) * 4 - 3)
+			-- Find random positions for dead trees
+			for i=0,amount do
 				local x = pr:next(x0, x1)
 				local z = pr:next(z0, z1)
 				-- Find ground level (0...15)
 				local ground_y = nil
-				for y=30,0,-1 do
-					if minetest.get_node({x=x,y=y,z=z}).name ~= "air" then
+				local ground_n = nil
+				for y=20,0,-1 do
+					ground_n = minetest.get_node_or_nil({x=x,y=y,z=z})
+					if ground_n and ground_n.name ~= "air" then
 						ground_y = y
 						break
 					end
 				end
-				-- If desert sand, make cactus
-				if ground_y and minetest.get_node({x=x,y=ground_y,z=z}).name == "default:dirt_with_grass" then
+				-- If dry dirt make dead tree
+				if ground_y and ground_n and ground_n.name == "default:dirt_with_grass" then
 					make_dead_tree({x=x,y=ground_y+1,z=z})
 				end
 			end
