@@ -7,7 +7,7 @@
 minetest.register_node("farming:soil", {
 	description = "Soil",
 	tiles = {"farming_soil.png", "default_dirt.png"},
-	drop = "default:dirt_with_grass",
+	drop = "default:dry_dirt",
 	is_ground_content = true,
 	groups = {crumbly=default.dig.dirt, not_in_creative_inventory=1, soil=2},
 	sounds = default.node_sound_dirt_defaults(),
@@ -17,7 +17,7 @@ minetest.register_node("farming:soil", {
 minetest.register_node("farming:soil_wet", {
 	description = "Wet Soil",
 	tiles = {"farming_soil_wet.png", "farming_soil_wet_side.png"},
-	drop = "default:dirt_with_grass",
+	drop = "default:dry_dirt",
 	is_ground_content = true,
 	groups = {crumbly=default.dig.dirt, not_in_creative_inventory=1, soil=3},
 	sounds = default.node_sound_dirt_defaults(),
@@ -42,7 +42,7 @@ minetest.register_abm({
 			if node.name == "farming:soil" then
 				-- only turn it back if there is no plant on top of it
 				if minetest.get_item_group(nn, "plant") == 0 then
-				--	minetest.set_node(pos, {name="default:dirt_with_grass"})
+				--	minetest.set_node(pos, {name="default:dry_dirt"})
 				end
 				
 			-- if its wet turn it back into dry soil
@@ -62,7 +62,7 @@ minetest.register_abm({
 		local nn = minetest.get_node(pos).name
 		pos.y = pos.y-1
 		if minetest.registered_nodes[nn] and minetest.get_item_group(nn, "plant") == 0 then
-			minetest.set_node(pos, {name="default:dirt_with_grass"})
+			minetest.set_node(pos, {name="default:dry_dirt"})
 		end
 	end
 
@@ -74,7 +74,7 @@ minetest.register_abm({
 	chance = 200,
 	action = function(p, node)
 
-		for _,pos in ipairs(minetest.find_nodes_in_area({x=p.x-3, y=p.y-4, z=p.z-3}, {x=p.x+3, y=p.y+1, z=p.z+3}, {"default:dirt_with_grass"})) do
+		for _,pos in ipairs(minetest.find_nodes_in_area({x=p.x-3, y=p.y-4, z=p.z-3}, {x=p.x+3, y=p.y+1, z=p.z+3}, {"default:dry_dirt"})) do
 			pos.y = pos.y+1
 			local nn = minetest.get_node(pos).name
 			local ll = 0
@@ -91,7 +91,7 @@ minetest.register_abm({
 })]]
 
 minetest.register_abm({
-	nodenames = {"default:dirt_with_grass"},
+	nodenames = {"default:dry_dirt"},
 	interval = 2,
 	chance = 200,
 	action = function(pos, node)
@@ -115,13 +115,13 @@ minetest.register_abm({
 	chance = 20,
 	action = function(pos, node)
 		if not minetest.find_node_near(pos, 6, {"group:water"}) then
-			minetest.set_node(pos, {name="default:dirt_with_grass"})
+			minetest.set_node(pos, {name="default:dry_dirt"})
 		else
 			pos.y = pos.y+1
 			local nn = minetest.get_node(pos).name
 			pos.y = pos.y-1
 			if minetest.registered_nodes[nn] and minetest.registered_nodes[nn].walkable then
-				minetest.set_node(pos, {name="default:dirt_with_grass"})
+				minetest.set_node(pos, {name="default:dry_dirt"})
 			end
 		end
 	end

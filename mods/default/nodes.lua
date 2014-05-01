@@ -82,7 +82,7 @@ minetest.register_node("default:desert_stonebrick", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("default:dirt_with_grass", {
+minetest.register_node("default:dry_dirt", {
 	description = "Dirt",
 	tiles = {"default_dry_dirt.png"},
 	is_ground_content = true,
@@ -95,7 +95,7 @@ minetest.register_node("default:grass", {
 	tiles = {"default_grass.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
 	is_ground_content = true,
 	groups = {crumbly=default.dig.dirt_with_grass,soil=1,not_in_creative_inventory=1},
-	drop = 'default:dirt_with_grass',
+	drop = 'default:dry_dirt',
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.25},
 	}),
@@ -110,7 +110,7 @@ minetest.register_node("default:dirt_with_snow", {
 	--	    fixed = {-0.5,-0.5,-0.5,0.5,0.5,0.5}},
 	is_ground_content = true,
 	groups = {crumbly=default.dig.dirt_with_grass},
-	drop = 'default:dirt_with_grass',
+	drop = 'default:dry_dirt',
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_snow_footstep", gain=0.25},
 	}),
@@ -122,7 +122,7 @@ minetest.register_node("default:dirt", {
 	tiles = {"default_dry_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=default.dig.dirt,soil=1},
-	drop = 'default:dirt_with_grass',
+	drop = 'default:dry_dirt',
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -1260,7 +1260,7 @@ minetest.register_node("default:snow", {
 	}),
 	--[[after_construct = function(pos)
 		pos.y = pos.y - 1
-		if minetest.get_node(pos).name == "default:dirt_with_grass" then
+		if minetest.get_node(pos).name == "default:dry_dirt" then
 			minetest.set_node(pos, {name="default:dirt_with_snow"})
 		end
 	end,]]

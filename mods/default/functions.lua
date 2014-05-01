@@ -210,7 +210,7 @@ minetest.register_abm({
 	end,
 })
 
---
+--[[
 -- Papyrus and cactus growing
 --
 
@@ -264,6 +264,7 @@ minetest.register_abm({
 		end
 	end,
 })
+]]
 
 --
 -- Leafdecay

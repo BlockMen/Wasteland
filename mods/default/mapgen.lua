@@ -12,19 +12,19 @@ minetest.register_alias("mapgen_jungletree", "default:jungletree")
 minetest.register_alias("mapgen_jungleleaves", "default:jungleleaves")
 minetest.register_alias("mapgen_apple", "default:apple")
 minetest.register_alias("mapgen_water_source", "air")
-minetest.register_alias("mapgen_dirt", "default:dirt_with_grass")
+minetest.register_alias("mapgen_dirt", "default:dry_dirt")
 minetest.register_alias("mapgen_sand", "default:sand")
 minetest.register_alias("mapgen_gravel", "default:gravel")
 minetest.register_alias("mapgen_clay", "default:hardened_clay")
 minetest.register_alias("mapgen_lava_source", "default:lava_source")
 minetest.register_alias("mapgen_cobble", "default:cobble")
 minetest.register_alias("mapgen_mossycobble", "default:mossycobble")
-minetest.register_alias("mapgen_dirt_with_grass", "default:dirt_with_grass")
+minetest.register_alias("mapgen_dirt_with_grass", "default:dry_dirt")
 minetest.register_alias("mapgen_junglegrass", "default:junglegrass")
 minetest.register_alias("mapgen_stone_with_coal", "default:stone_with_coal")
 minetest.register_alias("mapgen_stone_with_iron", "default:stone_with_iron")
 minetest.register_alias("mapgen_mese", "default:stone")
-minetest.register_alias("mapgen_desert_sand", "default:dirt_with_grass")
+minetest.register_alias("mapgen_desert_sand", "default:dry_dirt")
 minetest.register_alias("mapgen_desert_stone", "default:stone")
 minetest.register_alias("mapgen_stair_cobble", "stairs:stair_cobble")
 
@@ -308,7 +308,7 @@ function make_dead_tree(pos, size)
 end
 
 local dirt_snow = minetest.get_content_id("default:dirt_with_snow")
-local dirt_grass = minetest.get_content_id("default:dirt_with_grass")
+local dirt_dry = minetest.get_content_id("default:dry_dirt")
 local leaves = minetest.get_content_id("default:leaves")
 local snow = minetest.get_content_id("default:snow")
 local air = minetest.get_content_id("air")
@@ -323,7 +323,7 @@ local function make_snow(min,max,data,va,rnd)
 	   for zi=0, cnt do
 		local p = {x=min.x+xi,y=max.y-yi,z=min.z+zi}
 		local pi = va:indexp(p)
-		if data[pi] == dirt_grass then
+		if data[pi] == dirt_dry then
 			data[pi] = dirt_snow
 		end
 		if data[pi] == dirt_snow then-- and p.y > SNOW_START+3+rnd then
@@ -371,7 +371,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					end
 				end
 				-- If dry dirt make dead tree
-				if ground_y and ground_n and ground_n.name == "default:dirt_with_grass" then
+				if ground_y and ground_n and ground_n.name == "default:dry_dort" then
 					make_dead_tree({x=x,y=ground_y+1,z=z})
 				end
 			end
@@ -438,7 +438,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						minetest.registered_nodes[nn].buildable_to then
 						nn = minetest.get_node({x=x,y=ground_y,z=z}).name
 						-- If desert sand, add dry shrub
-						if nn == "default:dirt_with_grass" then
+						if nn == "default:dry_dirt" then
 							minetest.set_node(p,{name="default:dry_shrub"})
 						end
 					end

@@ -197,7 +197,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	if noise1 < 0.36 or noise1 > -0.36 then
 		local mpos = {x=math.random(minp.x,maxp.x), y=math.random(minp.y,maxp.y), z=math.random(minp.z,maxp.z)}
 		minetest.after(0.5, function()
-		 p2 = minetest.find_node_near(mpos, 25, {"default:dirt_with_grass"})	
+		 p2 = minetest.find_node_near(mpos, 25, {"default:dry_dirt"})	
 		 if not p2 or p2 == nil or p2.y < 0 then return end
 		
 		  make(p2,{x=math.random(6,9),z=math.random(6,9)})
@@ -207,7 +207,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		
 		local mpos = {x=math.random(minp.x,maxp.x), y=math.random(minp.y,maxp.y), z=math.random(minp.z,maxp.z)}
 		minetest.after(0.5, function()
-		 p2 = minetest.find_node_near(mpos, 25, {"default:dirt_with_grass"})	
+		 p2 = minetest.find_node_near(mpos, 25, {"default:dry_dirt"})	
 		 if not p2 or p2 == nil or p2.y < 0 then return end
 		  p2.y = p2.y+1
 		  local n = minetest.get_node(p2)

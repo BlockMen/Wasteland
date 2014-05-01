@@ -14,7 +14,7 @@ local z_sound_normal = "creatures_zombie"
 local z_sound_hit = "creatures_zombie_hit"
 local z_sound_dead = "creatures_zombie_death"
 
-creatures.z_spawn_nodes = {"default:dirt_with_grass","default:stone","default:dirt","default:desert_sand"}
+creatures.z_spawn_nodes = {"default:dry_dirt","default:stone","default:dirt","default:desert_sand"}
 creatures.z_spawner_range = 17
 creatures.z_spawner_max_mobs = 6
 
