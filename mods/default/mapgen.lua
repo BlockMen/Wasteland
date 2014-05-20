@@ -456,7 +456,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		local va = VoxelArea:new{ MinEdge = emin, MaxEdge = emax }
 		data = make_snow(minp,maxp,data, va,snow_height_rnd)
 		vm:set_data(data)
-		vm:calc_lighting(emin,emax)
+		vm:calc_lighting()
 		vm:write_to_map(data)
 	end		
 end)
