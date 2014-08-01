@@ -169,7 +169,11 @@ local function hoe_on_use(itemstack, user, pointed_thing, uses)
 		pos = pt.under,
 		gain = 0.5,
 	})
-	itemstack:add_wear(65535/(uses-1))
+
+	if not minetest.setting_getbool("creative_mode") then
+		itemstack:add_wear(65535/(uses-1))
+	end
+
 	return itemstack
 end
 
@@ -178,7 +182,7 @@ minetest.register_tool("farming:hoe_wood", {
 	inventory_image = "farming_tool_woodhoe.png",
 	
 	on_use = function(itemstack, user, pointed_thing)
-		return hoe_on_use(itemstack, user, pointed_thing, 30)
+		return hoe_on_use(itemstack, user, pointed_thing, 60/3)
 	end,
 })
 
@@ -187,25 +191,34 @@ minetest.register_tool("farming:hoe_stone", {
 	inventory_image = "farming_tool_stonehoe.png",
 	
 	on_use = function(itemstack, user, pointed_thing)
-		return hoe_on_use(itemstack, user, pointed_thing, 90)
+		return hoe_on_use(itemstack, user, pointed_thing, 132/3)
 	end,
 })
 
-minetest.register_tool("farming:hoe_steel", {
-	description = "Steel Hoe",
-	inventory_image = "farming_tool_steelhoe.png",
+minetest.register_tool("farming:hoe_iron", {
+	description = "Iron Hoe",
+	inventory_image = "farming_tool_ironhoe.png",
 	
 	on_use = function(itemstack, user, pointed_thing)
-		return hoe_on_use(itemstack, user, pointed_thing, 200)
+		return hoe_on_use(itemstack, user, pointed_thing, 251/3)
 	end,
 })
 
-minetest.register_tool("farming:hoe_bronze", {
-	description = "Bronze Hoe",
-	inventory_image = "farming_tool_bronzehoe.png",
+minetest.register_tool("farming:hoe_gold", {
+	description = "Gold Hoe",
+	inventory_image = "farming_tool_goldhoe.png",
 	
 	on_use = function(itemstack, user, pointed_thing)
-		return hoe_on_use(itemstack, user, pointed_thing, 220)
+		return hoe_on_use(itemstack, user, pointed_thing, 33/3)
+	end,
+})
+
+minetest.register_tool("farming:hoe_diamond", {
+	description = "Diamond Hoe",
+	inventory_image = "farming_tool_diamondhoe.png",
+	
+	on_use = function(itemstack, user, pointed_thing)
+		return hoe_on_use(itemstack, user, pointed_thing, 1562/3)
 	end,
 })
 
@@ -213,8 +226,8 @@ minetest.register_craft({
 	output = "farming:hoe_wood",
 	recipe = {
 		{"group:wood", "group:wood"},
-		{"", "default:stick"},
-		{"", "default:stick"},
+		{"", "group:stick"},
+		{"", "group:stick"},
 	}
 })
 
@@ -222,29 +235,37 @@ minetest.register_craft({
 	output = "farming:hoe_stone",
 	recipe = {
 		{"group:stone", "group:stone"},
-		{"", "default:stick"},
-		{"", "default:stick"},
+		{"", "group:stick"},
+		{"", "group:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "farming:hoe_steel",
+	output = "farming:hoe_iron",
 	recipe = {
-		{"default:steel_ingot", "default:steel_ingot"},
-		{"", "default:stick"},
-		{"", "default:stick"},
+		{"default:iron_ingot", "default:iron_ingot"},
+		{"", "group:stick"},
+		{"", "group:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "farming:hoe_bronze",
+	output = "farming:hoe_gold",
 	recipe = {
-		{"default:bronze_ingot", "default:bronze_ingot"},
-		{"", "default:stick"},
-		{"", "default:stick"},
+		{"default:gold_ingot", "default:gold_ingot"},
+		{"", "group:stick"},
+		{"", "group:stick"},
 	}
 })
 
+minetest.register_craft({
+	output = "farming:hoe_diamond",
+	recipe = {
+		{"default:diamond", "default:diamond"},
+		{"", "group:stick"},
+		{"", "group:stick"},
+	}
+})
 --
 -- Place seeds
 --
