@@ -4,6 +4,7 @@ mobs?
 moretrees?
 dwarves?
 animalmaterials?
+farming?
 fishing?
 glooptest?
 bushes?
