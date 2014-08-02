@@ -86,7 +86,7 @@ local function ground(pos)
 		cnt = cnt+1
 		if cnt > 25 then break end
 		if cnt>math.random(2,4) then mat = "stone"end
-		minetest.set_node(p2, {name="default:"..mat})
+		minetest.swap_node(p2, {name="default:"..mat})
 		p2.y = p2.y-1
 	end
 end
@@ -115,7 +115,7 @@ local function keller(pp, size)
 			if yi < w_h then
 				minetest.remove_node(p)
 			else
-				minetest.set_node(p, {name="default:water_source"})
+				minetest.swap_node(p, {name="default:water_source"})
 			end
 		end
 	end
@@ -135,7 +135,7 @@ if math.random(1,10) > 8 then wood = true end
 		for zi = 0,size.z do
 			if yi == 0 then
 				local p = {x=pos.x+xi, y=pos.y, z=pos.z+zi}
-				minetest.set_node(p, {name="default:"..material[math.random(1,2)]})
+				minetest.swap_node(p, {name="default:"..material[math.random(1,2)]})
 				minetest.after(1,ground,p)--(p)
 			else
 				if xi < 1 or xi > size.x-1 or zi<1 or zi>size.z-1 then
@@ -145,7 +145,7 @@ if math.random(1,10) > 8 then wood = true end
 						if yi == 2 and math.random(1,10) == 3 then new = "glass" end
 						local n = minetest.get_node_or_nil({x=pos.x+xi, y=pos.y+yi-1, z=pos.z+zi})
 						if n and n.name ~= "air" then
-							minetest.set_node({x=pos.x+xi, y=pos.y+yi, z=pos.z+zi}, {name="default:"..new})
+							minetest.swap_node({x=pos.x+xi, y=pos.y+yi, z=pos.z+zi}, {name="default:"..new})
 						end
 					end
 				else
@@ -167,7 +167,7 @@ local function make_grave(pos)
 	minetest.add_node(pos, {name="bones:bones", param2=param2})
 	fill_grave({x=pos.x,y=pos.y,z=pos.z})
 	pos.y = pos.y+1
-	minetest.set_node(pos, {name="bones:gravestone", param2=param2})
+	minetest.swap_node(pos, {name="bones:gravestone", param2=param2})
 end
 
 

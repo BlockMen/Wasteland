@@ -256,7 +256,7 @@ function make_dead_tree(pos, size)
 		if minetest.registered_nodes[nn] and
 		   minetest.registered_nodes[nn].buildable_to then
 			minetest.after(0.2,function()
-			  minetest.set_node(p, {name="default:dead_tree"})
+			  minetest.swap_node(p, {name="default:dead_tree"})
 			end)
 		else
 			return
@@ -350,7 +350,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		    local nn = minetest.get_node(p)
 		    p.y = p.y-1
 		    if nn and nn.name == "air" and n and n.name and n.name == "default:sand" then
-		     minetest.set_node(p, {name="default:mineralsand"})
+		     minetest.swap_node(p, {name="default:mineralsand"})
 		    end
 		   end
 		  end
@@ -396,7 +396,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						nn = minetest.get_node({x=x,y=ground_y,z=z}).name
 						-- If desert sand, add dry shrub
 						if nn == "default:dry_dirt" then
-							minetest.set_node(p,{name="default:dry_shrub"})
+							minetest.swap_node(p,{name="default:dry_shrub"})
 						end
 					end
 				end

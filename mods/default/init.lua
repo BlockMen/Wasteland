@@ -82,4 +82,5 @@ dofile(minetest.get_modpath("default").."/mapgen.lua")
 dofile(minetest.get_modpath("default").."/minerals.lua")
 dofile(minetest.get_modpath("default").."/player.lua")
 dofile(minetest.get_modpath("default").."/trees.lua")
+dofile(minetest.get_modpath("default").."/aliases.lua")
 
