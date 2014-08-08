@@ -5,7 +5,7 @@ minetest.register_node("coffin:gravestone", {
 	paramtype2 = "facedir",
 	groups = {dig_immediate = 1, cracky = 3},
 	sounds = default.node_sound_stone_defaults(),
-	drop = "default:cobblestone",
+	drop = "default:cobble",
 	drawtype = "nodebox",
 	node_box = {type = "fixed",
 		fixed = {
