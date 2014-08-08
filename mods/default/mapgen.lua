@@ -312,7 +312,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			local x1 = minp.x + math.floor((divx+1)*divlen)
 			local z1 = minp.z + math.floor((divz+1)*divlen)
 			-- Determine dead tree amount from perlin noise
-			local amount = math.floor(perlin1:get2d({x=x0, y=z0}) * 4 - 3)
+			local amount = math.floor(perlin1:get2d({x=x0, y=z0}) * 2 - 3)
 			-- Find random positions for dead trees
 			for i=0,amount do
 				local x = pr:next(x0, x1)
