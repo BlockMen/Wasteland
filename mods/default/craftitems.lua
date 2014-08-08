@@ -78,7 +78,7 @@ minetest.register_craftitem("default:bronze_ingot", {
 
 minetest.register_craftitem("default:gold_ingot", {
 	description = "Gold Ingot",
-	inventory_image = "default_gold_ingot.png"
+	inventory_image = "default_gold_ingot.png",
 	stack_max = 60,
 })
 
