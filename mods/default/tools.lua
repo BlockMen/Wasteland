@@ -26,6 +26,7 @@ local function get_groupcaps(uses, group, table)
 			[default.dig.workbench] = 3.75,
 			[default.dig.pressure_plate_wood] = 0.75,
 			[default.dig.deadtree] = 1.5,
+			[default.dig.old_chest] = 1.5,
 		}, uses=uses},
 		snappy = {times={
 			[default.dig.leaves] = 0.3,
@@ -327,6 +328,7 @@ minetest.register_tool("default:axe_wood", {
 				[default.dig.workbench] = 1.9,
 				[default.dig.pressure_plate_wood] = 0.4,
 				[default.dig.deadtree] = 0.75,
+				[default.dig.old_chest] = 0.75,
 			}, uses=60/3}
 		),
 		full_punch_interval = 1,
@@ -349,6 +351,7 @@ minetest.register_tool("default:axe_stone", {
 				[default.dig.workbench] = 0.95,
 				[default.dig.pressure_plate_wood] = 0.2,
 				[default.dig.deadtree] = 0.4,
+				[default.dig.old_chest] = 0.4,
 			}, uses=132/3}
 		),
 		full_punch_interval = 1,
@@ -371,6 +374,7 @@ minetest.register_tool("default:axe_iron", {
 				[default.dig.workbench] = 0.65,
 				[default.dig.pressure_plate_wood] = 0.15,
 				[default.dig.deadtree] = 0.25,
+				[default.dig.old_chest] = 0.25,
 			}, uses=251/3}
 		),
 		full_punch_interval = 1,
@@ -393,6 +397,7 @@ minetest.register_tool("default:axe_diamond", {
 				[default.dig.workbench] = 0.5,
 				[default.dig.pressure_plate_wood] = 0.1,
 				[default.dig.deadtree] = 0.2,
+				[default.dig.old_chest] = 0.2,
 			}, uses=1562/3}
 		),
 		full_punch_interval = 1,
@@ -415,6 +420,7 @@ minetest.register_tool("default:axe_gold", {
 				[default.dig.workbench] = 0.35,
 				[default.dig.pressure_plate_wood] = 0.1,
 				[default.dig.deadtree] = 0.15,
+				[default.dig.old_chest] = 0.15,
 			}, uses=33/3}
 		),
 		full_punch_interval = 1,
@@ -440,6 +446,7 @@ minetest.register_tool("default:sword_wood", {
 		damage_groups = {fleshy=2},
 	}
 })
+
 minetest.register_tool("default:sword_stone", {
 	description = "Stone Sword",
 	inventory_image = "default_tool_stonesword.png",
@@ -454,6 +461,7 @@ minetest.register_tool("default:sword_stone", {
 		damage_groups = {fleshy=4},
 	}
 })
+
 minetest.register_tool("default:sword_iron", {
 	description = "Iron Sword",
 	inventory_image = "default_tool_ironsword.png",
@@ -468,20 +476,7 @@ minetest.register_tool("default:sword_iron", {
 		damage_groups = {fleshy=6},
 	}
 })
-minetest.register_tool("default:sword_diamond", {
-	description = "Diamond Sword",
-	inventory_image = "default_tool_diamondsword.png",
-	tool_capabilities = {
-		groupcaps = get_groupcaps(551, "snappy",
-			{times={
-				[default.dig.leaves] = 0.2,
-				[default.dig.wool] = 1.2,
-			}, uses=551/3}
-		),
-		full_punch_interval = 1,
-		damage_groups = {fleshy=8},
-	}
-})
+
 minetest.register_tool("default:sword_gold", {
 	description = "Gold Sword",
 	inventory_image = "default_tool_goldsword.png",
@@ -494,5 +489,20 @@ minetest.register_tool("default:sword_gold", {
 		),
 		full_punch_interval = 1,
 		damage_groups = {fleshy=7},
+	}
+})
+
+minetest.register_tool("default:sword_diamond", {
+	description = "Diamond Sword",
+	inventory_image = "default_tool_diamondsword.png",
+	tool_capabilities = {
+		groupcaps = get_groupcaps(551, "snappy",
+			{times={
+				[default.dig.leaves] = 0.2,
+				[default.dig.wool] = 1.2,
+			}, uses=551/3}
+		),
+		full_punch_interval = 1.8,
+		damage_groups = {fleshy=8},
 	}
 })

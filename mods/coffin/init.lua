@@ -27,7 +27,7 @@ minetest.register_node("coffin:coffin", {
 		"coffin_side.png",
 	},
 	paramtype2 = "facedir",
-	groups = {dig_immediate = 2},
+	groups = {choppy = default.dig.old_chest},
 	sounds = default.node_sound_wood_defaults({
 		dug = {name = "ruins_chest_break", gain = 0.6},
 	}),

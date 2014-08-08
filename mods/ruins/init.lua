@@ -14,10 +14,10 @@ minetest.register_node("ruins:chest", {
 	tiles = {"ruins_chest_top.png", "ruins_chest_top.png", "ruins_chest_side.png",
 		 "ruins_chest_side.png", "ruins_chest_side.png", "ruins_chest_front.png"},
 	paramtype2 = "facedir",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2},
+	groups = {choppy = default.dig.old_chest},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults({
-		dug = {name = "ruins_chest_break", gain = 0.6},
+		dug = {name = "ruins_chest_break", gain = 0.8},
 	}),
 	drop = "default:stick 2",
 	on_construct = function(pos)

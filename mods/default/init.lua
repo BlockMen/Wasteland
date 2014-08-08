@@ -32,7 +32,7 @@ default.dig = {
 	netherbrick = 17,
 	redstone_ore = 18,
 	brick = 19,
-	pressure_plate_stone = 20,--+stonebrick,hardclay,grass
+	pressure_plate_stone = 20,--+stonebrick
 
 	-- Crumbly (shovel)
 	dirt_with_grass = 1,
@@ -46,7 +46,7 @@ default.dig = {
 	hardclay = 9,
 
 	-- Choppy (axe)
-	tree = 1,--+deadtree
+	tree = 1,
 	wood = 2,
 	bookshelf = 3,
 	fence = 4,
@@ -56,6 +56,7 @@ default.dig = {
 	workbench = 8,
 	pressure_plate_wood=9,
 	deadtree = 10,
+	old_chest = 11,
 
 	-- Snappy (shears)
 	leaves = 1,
