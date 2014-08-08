@@ -9,23 +9,40 @@ local chest_stuff = {
 
 }
 
-local frm = default.chest_formspec
+minetest.register_node("ruins:chest", {
+	description = "Old Chest",
+	tiles = {"ruins_chest_top.png", "ruins_chest_top.png", "ruins_chest_side.png",
+		 "ruins_chest_side.png", "ruins_chest_side.png", "ruins_chest_front.png"},
+	paramtype2 = "facedir",
+	groups = {choppy = 2, oddly_breakable_by_hand = 2},
+	legacy_facedir_simple = true,
+	sounds = default.node_sound_wood_defaults({
+		dug = {name = "ruins_chest_break", gain = 0.6},
+	}),
+	drop = "default:stick 2",
+	on_construct = function(pos)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		inv:set_size("main", 8*4)
+	end,
+	after_dig_node = default.drop_node_inventory(),
+})
+
+--[[local frm = default.chest_formspec
 if not default.chest_formspec then
  frm = "size[8,9]"..
 	"list[current_name;main;0,0;8,4;]"..
 	"list[current_player;main;0,5;8,4;]"
-end
+end]]
 
 local function fill_chest(pos)
-	minetest.set_node(pos, {name="default:chest", metadata=""})
+	minetest.set_node(pos, {name="ruins:chest", metadata=""})
 	minetest.after(2, function()
 		local n = minetest.get_node(pos)
 		local cnt = 0
 		if n ~= nil then
-			if n.name == "default:chest" then
+			if n.name == "ruins:chest" then
 				local meta = minetest.get_meta(pos)
-				meta:set_string("formspec",frm)
-				meta:set_string("infotext", "Chest")
 				local inv = meta:get_inventory()
 				inv:set_size("main", 8*4)
 				while cnt < 2 do

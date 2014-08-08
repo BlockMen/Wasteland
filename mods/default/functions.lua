@@ -87,44 +87,23 @@ end
 -- Legacy
 --
 
-function default.spawn_falling_node(p, nodename)
-	spawn_falling_node(p, nodename)
-end
-
--- Horrible crap to support old code
--- Don't use this and never do what this does, it's completely wrong!
--- (More specifically, the client and the C++ code doesn't get the group)
-function default.register_falling_node(nodename, texture)
-	minetest.log("error", debug.traceback())
-	minetest.log('error', "WARNING: default.register_falling_node is deprecated")
-	if minetest.registered_nodes[nodename] then
-		minetest.registered_nodes[nodename].groups.falling_node = 1
+function default.drop_node_inventory()
+	return function(pos, oldnode, oldmetadata, digger)
+		local meta = minetest.get_meta(pos)
+		meta:from_table(oldmetadata)
+		local inv = meta:get_inventory()
+		for i = 1, inv:get_size("main") do
+			local stack = inv:get_stack("main", i)
+			if not stack:is_empty() then
+				local p = {	x = pos.x + math.random(0, 5)/5 - 0.5,
+						y = pos.y, 
+						z = pos.z + math.random(0, 5)/5 - 0.5
+					  }
+				minetest.add_item(p, stack)
+			end
+		end
 	end
 end
-
---
--- Global callbacks
---
-
--- Global environment step function
-function on_step(dtime)
-	-- print("on_step")
-end
-minetest.register_globalstep(on_step)
-
-function on_placenode(p, node)
-	--print("on_placenode")
-end
-minetest.register_on_placenode(on_placenode)
-
-function on_dignode(p, node)
-	--print("on_dignode")
-end
-minetest.register_on_dignode(on_dignode)
-
-function on_punchnode(p, node)
-end
-minetest.register_on_punchnode(on_punchnode)
 
 --
 -- Grow trees
