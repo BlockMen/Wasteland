@@ -32,6 +32,6 @@ if not minetest.setting_getbool("only_peaceful_mobs") then
 			if minetest.get_node(pos).name ~= "air" then
 				return
 			end
-			creatures.spawn(pos, 1, "creatures:zombie", 2, 20)
+			creatures.spawn(pos, math.random(1,3), "creatures:zombie", 2, 20)
 		end})
 end
