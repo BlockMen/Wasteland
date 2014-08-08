@@ -322,22 +322,26 @@ minetest.register_craftitem("farming:seed_wheat", {
 	on_place = function(itemstack, placer, pointed_thing)
 		return place_seed(itemstack, placer, pointed_thing, "farming:wheat_1")
 	end,
+	stack_max = 60,
 })
 
 minetest.register_craftitem("farming:wheat", {
 	description = "Wheat",
 	inventory_image = "farming_wheat.png",
+	stack_max = 60,
 })
 
 minetest.register_craftitem("farming:flour", {
 	description = "Flour",
 	inventory_image = "farming_flour.png",
+	stack_max = 60,
 })
 
 minetest.register_craftitem("farming:bread", {
 	description = "Bread",
 	inventory_image = "farming_bread.png",
 	on_use = minetest.item_eat(4),
+	stack_max = 60,
 })
 
 minetest.register_craft({
@@ -421,11 +425,13 @@ minetest.register_craftitem("farming:seed_cotton", {
 	on_place = function(itemstack, placer, pointed_thing)
 		return place_seed(itemstack, placer, pointed_thing, "farming:cotton_1")
 	end,
+	stack_max = 60,
 })
 
 minetest.register_craftitem("farming:string", {
 	description = "String",
 	inventory_image = "farming_string.png",
+	stack_max = 60,
 })
 
 minetest.register_craft({

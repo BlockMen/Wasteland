@@ -187,6 +187,7 @@ function doors:register_door(name, def)
 		end,
 		
 		can_dig = check_player_priv,
+		stack_max = 40,
 	})
 	
 	minetest.register_node(name.."_t_1", {
@@ -217,6 +218,7 @@ function doors:register_door(name, def)
 		end,
 		
 		can_dig = check_player_priv,
+		stack_max = 40,
 	})
 	
 	minetest.register_node(name.."_b_2", {
@@ -247,6 +249,7 @@ function doors:register_door(name, def)
 		end,
 		
 		can_dig = check_player_priv,
+		stack_max = 40,
 	})
 	
 	minetest.register_node(name.."_t_2", {
@@ -277,6 +280,7 @@ function doors:register_door(name, def)
 		end,
 		
 		can_dig = check_player_priv,
+		stack_max = 40,
 	})
 	
 end
@@ -394,6 +398,7 @@ minetest.register_node("doors:trapdoor", {
 	on_rightclick = function(pos, node, clicker)
 		punch(pos)
 	end,
+	stack_max = 40,
 })
 
 

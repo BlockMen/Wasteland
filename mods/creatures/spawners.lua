@@ -55,7 +55,8 @@ function creatures.register_spawner(mob,size,offset,mesh,texture,range,max,max_l
 					end
 				end
 			end
-		end
+		end,
+		stack_max = 40,
 	})
 	--abm
 	minetest.register_abm({

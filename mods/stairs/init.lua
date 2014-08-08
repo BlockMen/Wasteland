@@ -40,6 +40,7 @@ function stairs.register_stair(subname, recipeitem, groups, images, description,
 			-- Otherwise place regularly
 			return minetest.item_place(itemstack, placer, pointed_thing)
 		end,
+		stack_max = 40,
 	})
 	
 	minetest.register_node(":stairs:stair_" .. subname.."upside_down", {
@@ -58,6 +59,7 @@ function stairs.register_stair(subname, recipeitem, groups, images, description,
 				{-0.5, -0.5, 0, 0.5, 0, 0.5},
 			},
 		},
+		stack_max = 40,
 	})
 
 	minetest.register_craft({
@@ -172,6 +174,7 @@ function stairs.register_slab(subname, recipeitem, groups, images, description, 
 			-- Otherwise place regularly
 			return minetest.item_place(itemstack, placer, pointed_thing)
 		end,
+		stack_max = 40,
 	})
 	
 	minetest.register_node(":stairs:slab_" .. subname.."upside_down", {
@@ -186,6 +189,7 @@ function stairs.register_slab(subname, recipeitem, groups, images, description, 
 			type = "fixed",
 			fixed = {-0.5, 0, -0.5, 0.5, 0.5, 0.5},
 		},
+		stack_max = 40,
 	})
 
 	minetest.register_craft({

@@ -91,6 +91,7 @@ for _, row in ipairs(dyelocal.dyes) do
 		inventory_image = item_image,
 		description = description,
 		groups = groups
+		stack_max = 60,
 	})
 	minetest.register_craft({
 		type = "shapeless",
