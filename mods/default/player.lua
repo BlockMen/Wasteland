@@ -138,6 +138,13 @@ function default.player_set_animation(player, anim_name, speed)
 	player:set_animation(anim, speed or model.animation_speed, animation_blend)
 end
 
+minetest.register_on_newplayer(function(player)
+	local name = player:get_player_name()
+	local form = ""
+	--minetest.show_formspec(name, "welcome", formspec)
+	minetest.chat_send_player(name, "To pick up dropped nodes use the USE-Key (default 'E')")
+end)
+
 -- Update appearance when the player joins
 minetest.register_on_joinplayer(function(player)
 	default.player_set_model(player, "character.x")
