@@ -493,6 +493,6 @@ minetest.register_tool("default:sword_gold", {
 			}, uses=16/3}
 		),
 		full_punch_interval = 1,
-		damage_groups = {fleshy=6},
+		damage_groups = {fleshy=7},
 	}
 })

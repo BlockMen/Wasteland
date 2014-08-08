@@ -38,7 +38,7 @@ end
 timer(1)
 
 
-local tool_uses = {0, 30, 110, 150, 280, 300, 500, 1000}
+local tool_uses = {0, 30, 66, 66, 280, 125, 16, 551}
 
 -- helping functions
 
