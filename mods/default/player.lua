@@ -84,6 +84,7 @@ local player_model = {}
 local player_textures = {}
 local player_anim = {}
 local player_sneak = {}
+default.player_attached = {}
 
 function default.player_get_animation(player)
 	local name = player:get_player_name()
@@ -167,7 +168,7 @@ minetest.register_globalstep(function(dtime)
 		local name = player:get_player_name()
 		local model_name = player_model[name]
 		local model = model_name and models[model_name]
-		if model then
+		if model and not default.player_attached[name] then
 			local controls = player:get_player_control()
 			local walking = false
 			local animation_speed_mod = model.animation_speed or 30
