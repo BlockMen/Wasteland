@@ -1,4 +1,4 @@
-local z_chillaxin_speed = 1.5
+local z_chillaxin_speed = 2
 local z_animation_speed = 15
 local z_mesh = "creatures_mob.x"
 local z_texture = {"creatures_zombie.png"}
@@ -14,7 +14,7 @@ local z_sound_normal = "creatures_zombie"
 local z_sound_hit = "creatures_zombie_hit"
 local z_sound_dead = "creatures_zombie_death"
 
-creatures.z_spawn_nodes = {"default:dry_dirt","default:stone","default:dirt","default:desert_sand"}
+creatures.z_spawn_nodes = {"default:dry_dirt","default:dirt","default:mossycobble", "default:stone","default:dirt","default:desert_sand"}
 creatures.z_spawner_range = 17
 creatures.z_spawner_max_mobs = 6
 
@@ -41,9 +41,12 @@ function z_hit(self)
 		textures = {"creatures_zombie.png^creatures_zombie_hit.png"},
 	}
 	self.object:set_properties(prop)
+	self.object:set_animation({x=self.anim.walk_START,y=self.anim.walk_END}, 35, 0)
+	self.npc_anim = creatures.ANIM_WALK
 	self.can_punch = false
 	minetest.after(0.4, function()
 		z_update_visuals_def(self)
+		self.npc_anim = ""
 	end)
 end
 
