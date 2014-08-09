@@ -26,7 +26,7 @@ local function get_groupcaps(uses, group, table)
 			[default.dig.workbench] = 3.75,
 			[default.dig.pressure_plate_wood] = 0.75,
 			[default.dig.deadtree] = 1.5,
-			[default.dig.old_chest] = 1.5,
+			[default.dig.old_chest] = 2,
 		}, uses=uses},
 		snappy = {times={
 			[default.dig.leaves] = 0.3,

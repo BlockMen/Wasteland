@@ -272,27 +272,27 @@ local air = minetest.get_content_id("air")
 
 local SNOW_START = 24
 
-local function make_snow(min,max,data,va,rnd)
-	local cnt = max.x-min.x
-	for yi=0, cnt do
-	 if max.y-yi>=SNOW_START+rnd then
-	  for xi=0, cnt do
-	   for zi=0, cnt do
-		local p = {x=min.x+xi,y=max.y-yi,z=min.z+zi}
-		local pi = va:indexp(p)
-		if data[pi] == dirt_dry then
-			data[pi] = dirt_snow
+local function make_snow(min, max, data, va, rnd)
+	local cnt = max.x - min.x
+	for yi = 0, cnt do
+		if max.y - yi >= SNOW_START + rnd then
+	 		for xi = 0, cnt do
+	  		for zi = 0, cnt do
+				local p = {x = min.x + xi, y = max.y - yi, z = min.z + zi}
+				local pi = va:indexp(p)
+				if data[pi] == dirt_dry then
+					data[pi] = dirt_snow
+				end
+				if data[pi] == dirt_snow then
+					p.y = p.y + 1
+					local opi = va:indexp(p)
+					if data[opi] == air then
+						data[pi] = snow
+					end
+				end
+	   		end
+	  		end
 		end
-		if data[pi] == dirt_snow then-- and p.y > SNOW_START+3+rnd then
-			p.y = p.y+1
-			local opi = va:indexp(p)
-			if data[opi] == air then-- and data[pi] ~= air then
-				data[pi] = snow
-			end
-		end
-	   end
-	  end
-	 end
 	end
 	return data
 end
@@ -300,36 +300,36 @@ end
 minetest.register_on_generated(function(minp, maxp, seed)
 	local pr = PseudoRandom(seed+1)
 	if maxp.y >= 2 and minp.y <= 0 then
-		-- old trees
+		-- dead trees
 		local perlin1 = minetest.get_perlin(230, 3, 0.6, 100)
 		-- Assume X and Z lengths are equal
 		local divlen = 16
-		local divs = (maxp.x-minp.x)/divlen+1;
-		for divx=0,divs-1 do
-		for divz=0,divs-1 do
+		local divs = (maxp.x - minp.x)/divlen + 1;
+		for divx = 0, divs - 1 do
+		for divz = 0, divs - 1 do
 			local x0 = minp.x + math.floor((divx+0)*divlen)
 			local z0 = minp.z + math.floor((divz+0)*divlen)
 			local x1 = minp.x + math.floor((divx+1)*divlen)
 			local z1 = minp.z + math.floor((divz+1)*divlen)
 			-- Determine dead tree amount from perlin noise
-			local amount = math.floor(perlin1:get2d({x=x0, y=z0}) * 2 - 3)
+			local amount = math.floor(perlin1:get2d({x = x0, y = z0}) * 2.8 - 3)
 			-- Find random positions for dead trees
-			for i=0,amount do
+			for i = 0,amount do
 				local x = pr:next(x0, x1)
 				local z = pr:next(z0, z1)
 				-- Find ground level (0...15)
 				local ground_y = nil
 				local ground_n = nil
-				for y=20,0,-1 do
-					ground_n = minetest.get_node_or_nil({x=x,y=y,z=z})
-					if ground_n and ground_n.name ~= "air" then
+				for y = 20, 0, -1 do
+					ground_n = minetest.get_node_or_nil({x = x, y = y, z = z})
+					if ground_n and ground_n.name== "default:dry_dirt" then
 						ground_y = y
 						break
 					end
 				end
 				-- If dry dirt make dead tree
-				if ground_y and ground_n and ground_n.name == "default:dry_dirt" then
-					make_dead_tree({x=x,y=ground_y+1,z=z})
+				if ground_y and ground_n then
+					make_dead_tree({x = x, y = ground_y + 1, z = z})
 				end
 			end
 		end
