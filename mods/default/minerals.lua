@@ -1,16 +1,10 @@
-local n
-local n2
-local pos
-
-function generate_tree(pos)
-	
+local function generate_tree(pos)
 		local nu =  minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name
 		local is_soil = minetest.get_item_group(nu, "soil")
 		if is_soil == 0 then
 			return
 		end
-		
-		minetest.log("action", "A sapling grows into a tree at "..minetest.pos_to_string(pos))
+
 		local vm = minetest.get_voxel_manip()
 		local minp, maxp = vm:read_from_map({x=pos.x-16, y=pos.y, z=pos.z-16}, {x=pos.x+16, y=pos.y+16, z=pos.z+16})
 		local a = VoxelArea:new{MinEdge=minp, MaxEdge=maxp}
@@ -44,62 +38,67 @@ end
 end)
 
 local function duengen(pointed_thing)
-pos = pointed_thing.under
-n = minetest.env:get_node(pos)
-if n.name == "" then return end
-local stage = ""
-if n.name == "default:sapling" then
-	if minetest.env:get_node_light(pos) then
-		if math.random(1,3) < 3 then
-			minetest.env:set_node(pos, {name="air"})
+	local pos = pointed_thing.under
+	local n = minetest.get_node_or_nil(pos)
+
+	if not n or not n.name then
+		return
+	end
+
+
+	print(n.name)
+
+	local stage = ""
+	if n.name == "default:sapling" and minetest.get_node_light(pos) then
+		if math.random(1,20) < 5 then
+			minetest.set_node(pos, {name="air"})
 			generate_tree(pos)
 		end
-	end
-elseif string.find(n.name, "farming:wheat_") ~= nil then
-	stage = tonumber(string.sub(n.name, 15))
-	if math.random(1,7) < stage/3 then
-		minetest.env:set_node(pos, {name="farming:wheat_8"})
-	elseif stage < 7 then
-		minetest.env:set_node(pos, {name="farming:wheat_"..stage+math.random(1,2)})
-	--else
-		--minetest.env:set_node(pos, {name="farming:wheat_"..math.random(2,3)})
-	end
-elseif string.find(n.name, "farming:cotton_") ~= nil then
-	stage = tonumber(string.sub(n.name, 16))
-	if stage == 1 then
-		minetest.env:set_node(pos, {name="farming:cotton_"..math.random(stage,2)})
-	else
-		minetest.env:set_node(pos, {name="farming:cotton"})
-	end
-elseif string.find(n.name, "farming:pumpkin_") ~= nil then
-	stage = tonumber(string.sub(n.name, 17))
-	if stage == 1 then
-		minetest.env:set_node(pos, {name="farming:pumpkin_"..math.random(stage,2)})
-	else
-		minetest.env:set_node(pos, {name="farming:pumpkin"})
-	end
-	
-elseif n.name == "default:dirt_with_grass" then
-	for i = -2, 3, 1 do
-		for j = -3, 2, 1 do
-			pos = pointed_thing.under
-			pos = {x=pos.x+i, y=pos.y, z=pos.z+j}
-			n = minetest.env:get_node(pos)
-			--n2 = minetest.env:get_node({x=pos.x, y=pos.y-1, z=pos.z})
 
-			if n and n.name and n.name == "default:dirt_with_grass" and minetest.find_node_near(pos, 6, {"group:water"}) then
-				if math.random(0,5) > 3 then
-					--minetest.env:set_node(pos, {name=plant_tab[math.random(0, rnd_max)]})
-					minetest.env:set_node(pointed_thing.under, {name="default:grass"})
+	elseif string.find(n.name, "farming:wheat_") ~= nil then
+		stage = tonumber(string.sub(n.name, 15))
+		if math.random(1,7) < stage/3 then
+			minetest.set_node(pos, {name="farming:wheat_8"})
+		elseif stage < 7 then
+			minetest.set_node(pos, {name="farming:wheat_"..stage+math.random(1,2)})
+		end
+
+	elseif string.find(n.name, "farming:cotton_") ~= nil then
+		stage = tonumber(string.sub(n.name, 16))
+		if stage == 1 then
+			minetest.set_node(pos, {name="farming:cotton_"..math.random(stage,2)})
+		else
+			minetest.set_node(pos, {name="farming:cotton"})
+		end
+
+	elseif string.find(n.name, "farming:pumpkin_") ~= nil then
+		stage = tonumber(string.sub(n.name, 17))
+		if stage == 1 then
+			minetest.set_node(pos, {name="farming:pumpkin_"..math.random(stage,2)})
+		else
+			minetest.set_node(pos, {name="farming:pumpkin"})
+		end
+	
+	elseif n.name == "default:dry_dirt" then
+		for i = -2, 3, 1 do
+		for j = -3, 2, 1 do
+			local p = {x=pos.x+i, y=pos.y, z=pos.z+j}
+			--pos = 
+			local n2 = minetest.get_node_or_nil(p)
+
+			if n2 and n2.name and n2.name == "default:dry_dirt" and minetest.find_node_near(p, 6, {"group:water"}) then
+				if math.random(1,6) > 3 then
+					--minetest.env:set_node(p, {name=plant_tab[math.random(0, rnd_max)]})
+					minetest.set_node(pointed_thing.under, {name="default:grass"})
 				else
-					minetest.env:set_node(pos, {name="default:grass"})
+					minetest.set_node(p, {name="default:grass"})
 				end
 				
 				
 			end
 		end
+		end
 	end
-end
 end
 
 
@@ -107,11 +106,13 @@ minetest.register_craftitem("default:minerals", {
 	description = "Minerals",
 	inventory_image = "default_minerals.png",
 	liquids_pointable = false,
-	--stack_max = 99,
+	stack_max = 60,
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
 			duengen(pointed_thing)
-			if not minetest.setting_getbool("creative_mode") then itemstack:take_item() end
+			if not minetest.setting_getbool("creative_mode") then
+				itemstack:take_item()
+			end
 			return itemstack
 		end
 	end,

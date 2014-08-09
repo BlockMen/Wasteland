@@ -268,38 +268,65 @@ local dirt_snow = minetest.get_content_id("default:dirt_with_snow")
 local dirt_dry = minetest.get_content_id("default:dry_dirt")
 local leaves = minetest.get_content_id("default:leaves")
 local snow = minetest.get_content_id("default:snow")
+local ms = minetest.get_content_id("default:mineralsand")
+local sand = minetest.get_content_id("default:sand")
 local air = minetest.get_content_id("air")
 
-local SNOW_START = 24
-
 local function make_snow(min, max, data, va, rnd)
-	local cnt = max.x - min.x
-	for yi = 0, cnt do
-		if max.y - yi >= SNOW_START + rnd then
-	 		for xi = 0, cnt do
-	  		for zi = 0, cnt do
-				local p = {x = min.x + xi, y = max.y - yi, z = min.z + zi}
-				local pi = va:indexp(p)
-				if data[pi] == dirt_dry then
-					data[pi] = dirt_snow
+	local y1 = min.y
+	local x1 = min.x
+	local z1 = min.z
+	local x2 = max.x
+	local z2 = max.z
+	local y_max = SNOW_START + rnd
+	if y1 == 48 then
+		y_max = y1
+	end 
+	for yi = max.y, y_max, -1 do
+	 	for xi = x1, x2 do
+	  	for zi = z1, z2 do
+			local pi = va:index(xi, yi, zi)
+			if data[pi] == dirt_dry then
+				data[pi] = dirt_snow
+			end
+			if data[pi] == dirt_snow then
+				local opi = va:index(xi, yi + 1, zi)
+				if data[opi] == air then
+					data[pi] = snow
 				end
-				if data[pi] == dirt_snow then
-					p.y = p.y + 1
-					local opi = va:indexp(p)
-					if data[opi] == air then
-						data[pi] = snow
-					end
-				end
-	   		end
-	  		end
-		end
+			end
+	   	end
+	  	end
 	end
 	return data
 end
 
+local function make_minerals(min, max, data, va)
+	local x1 = min.x
+	local z1 = min.z
+	local x2 = max.x
+	local z2 = max.z
+	for yi = min.y, MINERAL_MAX do
+	 	for xi = x1, x2 do
+	  	for zi = z1, z2 do
+			local pi = va:index(xi, yi, zi)
+			local pi2 = va:index(xi, yi - 1, zi)
+			if data[pi] == air and data[pi2] == sand then
+				data[pi] = ms
+			end
+	   	end
+	  	end
+	end
+	return data, false
+end
 minetest.register_on_generated(function(minp, maxp, seed)
+	local by = minp.y
+	if not (by == -32 or by == 48) then
+		return
+	end
+	
 	local pr = PseudoRandom(seed+1)
-	if maxp.y >= 2 and minp.y <= 0 then
+	if by == -32 then
 		-- dead trees
 		local perlin1 = minetest.get_perlin(230, 3, 0.6, 100)
 		-- Assume X and Z lengths are equal
@@ -334,30 +361,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			end
 		end
 		end
-
-	end
-	--[[TODO: dont produce that much lags!!minerals
-	local MINERAL_MAX = -11
-	--if maxp.y < MINERAL_MAX then
-	 local cnt = maxp.x-minp.x
-		for yi=0, cnt do
-		 if minp.y+yi<MINERAL_MAX then
-		  for xi=0, cnt do
-		   for zi=0, cnt do
-		   local p = {x=minp.x+xi,y=minp.y+yi,z=minp.z+zi}
-		    local n = minetest.get_node(p)
-		    p.y = p.y+1
-		    local nn = minetest.get_node(p)
-		    p.y = p.y-1
-		    if nn and nn.name == "air" and n and n.name and n.name == "default:sand" then
-		     minetest.swap_node(p, {name="default:mineralsand"})
-		    end
-		   end
-		  end
-		 end
-		end
-
-	--end]]
 
 
 		-- Generate dry grass
@@ -405,16 +408,42 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		end
 		end
 
-	-- snowcaps
+		
+		--data = 
+	end
+
+	-- snowcaps and mineral sand
 	local snow_height_rnd = pr:next(0,3)
-	if maxp.y >= SNOW_START then--+snow_height_rnd then
-		local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-		local data = vm:get_data()
-		local va = VoxelArea:new{ MinEdge = emin, MaxEdge = emax }
-		data = make_snow(minp,maxp,data, va,snow_height_rnd)
-		vm:set_data(data)
-		vm:calc_lighting()
-		vm:write_to_map(data)
-	end		
+
+	-- delay mapgen to reduce conflicts with mud regeneration
+	if by == 48 then
+		local timeout = 0
+		while timeout < 5 do
+			timeout = timeout + 1
+		end
+	end
+
+	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
+	local data = vm:get_data()
+	local va = VoxelArea:new{MinEdge = emin, MaxEdge = emax}
+
+	if by == -32 then
+		-- Generate mineral sand
+		local wait = true
+		data, wait = make_minerals(minp, maxp, data, va)
+		
+		while wait do
+			--wait for first manip to finish
+		end
+		data = make_snow(minp, maxp, data, va, snow_height_rnd)
+	else
+		data = make_snow(minp, maxp, data, va, snow_height_rnd)
+	end
+	
+
+	-- write vmanip data
+	vm:set_data(data)
+	vm:calc_lighting()
+	vm:write_to_map(data)
 end)
 
