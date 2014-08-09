@@ -150,6 +150,10 @@ end)
 minetest.register_on_joinplayer(function(player)
 	default.player_set_model(player, "character.x")
 	player:set_local_animation({x=0, y=79}, {x=168, y=187}, {x=189, y=198}, {x=200, y=219}, 30)
+
+	if not minetest.setting_getbool("creative_mode") then
+		player:set_inventory_formspec(default.gui_suvival_form)
+	end
 end)
 
 minetest.register_on_leaveplayer(function(player)

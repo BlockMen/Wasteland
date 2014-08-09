@@ -701,16 +701,26 @@ minetest.register_node("default:sign_wall", {
 
 default.chest_formspec = 
 	"size[8,9]"..
-	"list[current_name;main;0,0;8,4;]"..
-	"list[current_player;main;0,5;8,4;]"
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"list[current_name;main;0,0.3;8,4;]"..
+	"list[current_player;main;0,4.85;8,1;]"..
+	"list[current_player;main;0,6.08;8,3;8]"..
+	default.get_hotbar_bg(0,4.85)
 
 function default.get_locked_chest_formspec(pos)
 	local spos = pos.x .. "," .. pos.y .. "," ..pos.z
 	local formspec =
 		"size[8,9]"..
-		"list[nodemeta:".. spos .. ";main;0,0;8,4;]"..
-		"list[current_player;main;0,5;8,4;]"
-	return formspec
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"list[nodemeta:".. spos .. ";main;0,0.3;8,4;]"..
+		"list[current_player;main;0,4.85;8,1;]"..
+		"list[current_player;main;0,6.08;8,3;8]"..
+		default.get_hotbar_bg(0,4.85)
+ return formspec
 end
 
 
@@ -838,25 +848,54 @@ minetest.register_node("default:chest_locked", {
 	stack_max = 40,
 })
 
+function default.furnace_active(pos, percent, item_percent)
+    local formspec = 
+	"size[8,8.5]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"list[current_name;src;2.75,0.5;1,1;]"..
+	"list[current_name;fuel;2.75,2.5;1,1;]"..
+	"image[2.75,1.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
+	(100-percent)..":default_furnace_fire_fg.png]"..
+        "image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[lowpart:"..
+        (item_percent*100)..":gui_furnace_arrow_fg.png^[transformR270]"..
+	"list[current_name;dst;4.75,0.96;2,2;]"..
+	"list[current_player;main;0,4.25;8,1;]"..
+	"list[current_player;main;0,5.5;8,3;8]"..
+	default.get_hotbar_bg(0,4.25)
+    return formspec
+  end
+
 function default.get_furnace_active_formspec(pos, percent)
-	local formspec =
-		"size[8,9]"..
-		"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:"..
-		(100-percent)..":default_furnace_fire_fg.png]"..
-		"list[current_name;fuel;2,3;1,1;]"..
-		"list[current_name;src;2,1;1,1;]"..
-		"list[current_name;dst;5,1;2,2;]"..
-		"list[current_player;main;0,5;8,4;]"
-	return formspec
+	local meta = minetest.get_meta(pos)local inv = meta:get_inventory()
+	local srclist = inv:get_list("src")
+	local cooked = nil
+	local aftercooked = nil
+	if srclist then
+		cooked, aftercooked = minetest.get_craft_result({method = "cooking", width = 1, items = srclist})
+	end
+	local item_percent = 0
+	if cooked then
+		item_percent = meta:get_float("src_time")/cooked.time
+	end
+       
+        return default.furnace_active(pos, percent, item_percent)
 end
 
 default.furnace_inactive_formspec =
-	"size[8,9]"..
-	"image[2,2;1,1;default_furnace_fire_bg.png]"..
-	"list[current_name;fuel;2,3;1,1;]"..
-	"list[current_name;src;2,1;1,1;]"..
-	"list[current_name;dst;5,1;2,2;]"..
-	"list[current_player;main;0,5;8,4;]"
+	"size[8,8.5]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"list[current_name;src;2.75,0.5;1,1;]"..
+	"list[current_name;fuel;2.75,2.5;1,1;]"..
+	"image[2.75,1.5;1,1;default_furnace_fire_bg.png]"..
+	"image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[transformR270]"..
+	"list[current_name;dst;4.75,0.96;2,2;]"..
+	"list[current_player;main;0,4.25;8,1;]"..
+	"list[current_player;main;0,5.5;8,3;8]"..
+	default.get_hotbar_bg(0,4.25)
 
 minetest.register_node("default:furnace", {
 	description = "Furnace",
@@ -985,18 +1024,9 @@ minetest.register_node("default:furnace_active", {
 	end,
 })
 
-function hacky_swap_node(pos,name)
+local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
-	local meta = minetest.get_meta(pos)
-	local meta0 = meta:to_table()
-	if node.name == name then
-		return
-	end
-	node.name = name
-	local meta0 = meta:to_table()
-	minetest.set_node(pos,node)
-	meta = minetest.get_meta(pos)
-	meta:from_table(meta0)
+	minetest.swap_node(pos, {name = "default:furnace", param2 = node.param2 or 0})
 end
 
 minetest.register_abm({
@@ -1049,7 +1079,7 @@ minetest.register_abm({
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			local percent = math.floor(meta:get_float("fuel_time") /
 					meta:get_float("fuel_totaltime") * 100)
-			hacky_swap_node(pos,"default:furnace_active")
+			swap_node(pos, "default:furnace_active")
 			meta:set_string("formspec",default.get_furnace_active_formspec(pos, percent))
 			return
 		end
@@ -1068,14 +1098,14 @@ minetest.register_abm({
 		end
 
 		if fuel.time <= 0 then
-			hacky_swap_node(pos,"default:furnace")
+			swap_node(pos, "default:furnace")
 			meta:set_string("formspec", default.furnace_inactive_formspec)
 			return
 		end
 
 		if cooked.item:is_empty() then
 			if was_active then
-				hacky_swap_node(pos,"default:furnace")
+				swap_node(pos, "default:furnace")
 				meta:set_string("formspec", default.furnace_inactive_formspec)
 			end
 			return
