@@ -81,15 +81,6 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = 'default:pick_bronze',
-	recipe = {
-		{'default:bronze_ingot', 'default:bronze_ingot', 'default:bronze_ingot'},
-		{'', 'default:stick', ''},
-		{'', 'default:stick', ''},
-	}
-})
-
-minetest.register_craft({
 	output = 'default:pick_diamond',
 	recipe = {
 		{'default:diamond', 'default:diamond', 'default:diamond'},
@@ -120,15 +111,6 @@ minetest.register_craft({
 	output = 'default:shovel_iron',
 	recipe = {
 		{'default:iron_ingot'},
-		{'default:stick'},
-		{'default:stick'},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:shovel_bronze',
-	recipe = {
-		{'default:bronze_ingot'},
 		{'default:stick'},
 		{'default:stick'},
 	}
@@ -171,15 +153,6 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = 'default:axe_bronze',
-	recipe = {
-		{'default:bronze_ingot', 'default:bronze_ingot'},
-		{'default:bronze_ingot', 'default:stick'},
-		{'', 'default:stick'},
-	}
-})
-
-minetest.register_craft({
 	output = 'default:axe_diamond',
 	recipe = {
 		{'default:diamond', 'default:diamond'},
@@ -211,15 +184,6 @@ minetest.register_craft({
 	recipe = {
 		{'default:iron_ingot'},
 		{'default:iron_ingot'},
-		{'default:stick'},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:sword_bronze',
-	recipe = {
-		{'default:bronze_ingot'},
-		{'default:bronze_ingot'},
 		{'default:stick'},
 	}
 })
