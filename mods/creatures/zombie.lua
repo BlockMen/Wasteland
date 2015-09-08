@@ -36,11 +36,10 @@ function z_hit(self)
 	local sound = z_sound_hit
 	if self.object:get_hp() < 1 then sound = z_sound_dead end
 	minetest.sound_play(sound, {pos = self.object:getpos(), max_hear_distance = 10, loop = false, gain = 0.4})
-	prop = {
+	self.object:set_properties({
 		mesh = z_mesh,
 		textures = {"creatures_zombie.png^creatures_zombie_hit.png"},
-	}
-	self.object:set_properties(prop)
+	})
 	self.object:set_animation({x=self.anim.walk_START,y=self.anim.walk_END}, 35, 0)
 	self.npc_anim = creatures.ANIM_WALK
 	self.can_punch = false
@@ -52,11 +51,10 @@ end
 
 function z_update_visuals_def(self)
 	self.can_punch = true
-	prop = {
+	self.object:set_properties({
 		mesh = z_mesh,
 		textures = z_texture,
-	}
-	self.object:set_properties(prop)
+	})
 end
 
 ZOMBIE_DEF = {
@@ -69,6 +67,9 @@ ZOMBIE_DEF = {
 	makes_footstep_sound = true,
 	npc_anim = 0,
 	lifetime = 0,
+	sleep = 0,
+	sleep_delay = 0,
+	walkspeed = 0,
 	timer = 0,
 	turn_timer = 0,
 	vec = 0,
@@ -98,7 +99,6 @@ ZOMBIE_DEF.on_activate = function(self, staticdata, dtime_s)
 	z_update_visuals_def(self)
 	self.anim = z_get_animations()
 	self.object:set_animation({x=self.anim.stand_START,y=self.anim.stand_END}, z_animation_speed, 0)
-	self.npc_anim = ANIM_STAND
 	self.object:setacceleration({x=0,y=-20,z=0})
 	self.state = 1
 	self.object:set_hp(z_hp)
@@ -147,14 +147,26 @@ ZOMBIE_DEF.on_punch = function(self, puncher, time_from_last_punch, tool_capabil
 end
 
 ZOMBIE_DEF.on_step = function(self, dtime)
-	if self.dead then return end
-	self.timer = self.timer + 0.01
-	self.lifetime = self.lifetime + 0.01
-	self.turn_timer = self.turn_timer + 0.01
-	self.jump_timer = self.jump_timer + 0.01
-	self.punch_timer = self.punch_timer + 0.01
-	self.attacking_timer = self.attacking_timer + 0.01
-	self.sound_timer = self.sound_timer + 0.01
+	if self.dead then
+		return
+	end
+	self.sleep = self.sleep+dtime
+	if self.sleep < self.sleep_delay then
+		return
+	end
+	dtime = self.sleep
+	self.sleep = 0
+	self.sleep_delay = 0.5+math.random()
+
+	--local vel = self.object:getvelocity()
+
+	self.timer = self.timer + dtime
+	self.lifetime = self.lifetime + dtime
+	self.turn_timer = self.turn_timer + dtime
+	self.jump_timer = self.jump_timer + dtime
+	self.punch_timer = self.punch_timer + dtime
+	self.attacking_timer = self.attacking_timer + dtime
+	self.sound_timer = self.sound_timer + dtime
 
 	local current_pos = self.object:getpos()
 	local current_node = minetest.env:get_node_or_nil(current_pos)
@@ -172,7 +184,7 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 		minetest.sound_play(z_sound_dead, {pos = current_pos, max_hear_distance = 10, gain = 0.9})
 		self.object:set_animation({x=self.anim.lay_START,y=self.anim.lay_END}, z_animation_speed, 0)
 		minetest.after(1, function()
-			self.object:remove()	
+			self.object:remove()
 			if self.object:get_hp() < 1 and creatures.drop_on_death then
 			    creatures.drop(current_pos, {{name=z_drop, count=math.random(0,2)}})
 			end
@@ -187,15 +199,15 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 		self.object:remove()
 		return
 	end
-	
+
 	-- die when in water, lava or sunlight
 	local wtime = minetest.env:get_timeofday()
 	local ll = minetest.env:get_node_light({x=current_pos.x,y=current_pos.y+1,z=current_pos.z}) or 0
 	local nn = nil
 	if current_node ~= nil then nn = current_node.name end
 	if nn ~= nil and nn == "default:water_source" or
-	   nn == "default:water_flowing" or 
-	   nn == "default:lava_source" or 
+	   nn == "default:water_flowing" or
+	   nn == "default:lava_source" or
 	   nn == "default:lava_flowing" or
 	   (wtime > 0.2 and wtime < 0.805 and current_pos.y > 0 and ll > 11) then
 		self.sound_timer = self.sound_timer + dtime
@@ -247,8 +259,8 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 		for  _,object in ipairs(minetest.env:get_objects_inside_radius(current_pos, z_player_radius)) do
 			if object:is_player() then
 				self.yawwer = false
-				NPC = current_pos
-				PLAYER = object:getpos()
+				local NPC = current_pos
+				local PLAYER = object:getpos()
 				self.vec = {x=PLAYER.x-NPC.x, y=PLAYER.y-NPC.y, z=PLAYER.z-NPC.z}
 				self.yaw = math.atan(self.vec.z/self.vec.x)+math.pi^2
 				if PLAYER.x > NPC.x then
@@ -286,8 +298,8 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 		for  _,object in ipairs(minetest.env:get_objects_inside_radius(current_pos, z_player_radius)) do
 			if object:is_player() then
 				self.yawwer = false
-				NPC = current_pos
-				PLAYER = object:getpos()
+				local NPC = current_pos
+				local PLAYER = object:getpos()
 				self.vec = {x=PLAYER.x-NPC.x, y=PLAYER.y-NPC.y, z=PLAYER.z-NPC.z}
 				self.yaw = math.atan(self.vec.z/self.vec.x)+math.pi^2
 				if PLAYER.x > NPC.x then
@@ -302,14 +314,14 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 		if self.attacker ~= "" then
 			self.direction = {x = math.sin(self.yaw)*-1, y = -20, z = math.cos(self.yaw)}
 			self.state = 2
-		else 
+		else
 			self.state =1
 		end
 	end
 
 	-- WALKING
 	if self.state == 2 then
-		
+
 		if self.attacker ~= "" then
 			self.direction = {x=math.sin(self.yaw)*-1, y=-20, z=math.cos(self.yaw)}
 		end
@@ -322,10 +334,27 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 			self.turn_timer = 0
 			self.direction = {x=math.sin(self.yaw)*-1, y=-20, z=math.cos(self.yaw)}
 		end
-		if self.npc_anim ~= creatures.ANIM_WALK then
-			self.npc_anim = creatures.ANIM_WALK
-			self.object:set_animation({x=self.anim.walk_START,y=self.anim.walk_END}, z_animation_speed, 0)
-		end
+
+		minetest.after(0.2, function(self)
+			local vel = self.object:getvelocity()
+			if not vel then
+				return
+			end
+			local walkspeed = z_animation_speed*math.hypot(vel.x, vel.z)
+			if walkspeed ~= self.walkspeed then
+				self.walkspeed = walkspeed
+				if walkspeed == 0 then
+					self.object:set_animation({x=self.anim.stand_START,y=self.anim.stand_END}, z_animation_speed, 0)
+					self.npc_anim = creatures.ANIM_STAND
+				else
+					local _,speed = self.object:get_animation()
+					if speed ~= walkspeed then
+						self.npc_anim = creatures.ANIM_WALK
+						self.object:set_animation({x=self.anim.walk_START,y=self.anim.walk_END}, walkspeed, 0)
+					end
+				end
+			end
+		end, self)
 
 		--jump
 		local p = current_pos
