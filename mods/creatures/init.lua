@@ -104,7 +104,7 @@ function creatures.find_mates(pos, name, radius)
 	local res = false
 	for  _,obj in ipairs(minetest.get_objects_inside_radius(pos, radius)) do
 		if obj:is_player() then
-			player_near = true 
+			player_near = true
 		else
 			local entity = obj:get_luaentity()
 			if entity and entity.mob_name and entity.mob_name == name then
@@ -140,34 +140,53 @@ function creatures.attack(self, pos1, pos2, dist, range)
 end
 
 function creatures.jump(self, pos, jump_y, timer)
-	if not self or not pos then return end
-	if self.direction ~= nil then
-		if self.jump_timer > timer then
-			self.jump_timer = 0
-			local p = {x=pos.x + self.direction.x,y=pos.y,z=pos.z + self.direction.z}-- pos
-			local n = minetest.get_node_or_nil(p)
-			p.y = p.y+1
-			local n2 = minetest.get_node_or_nil(p)
-			local def = nil
-			local def2 = nil
-			if n and n.name then
-				def = minetest.registered_items[n.name]
-			end
-			if n2 and n2.name then
-				def2 = minetest.registered_items[n2.name]
-			end
-			if def and def.walkable and def2 and not def2.walkable and not def.groups.fences and n.name ~= "default:fence_wood" then-- 
-				self.object:setvelocity({x=self.object:getvelocity().x*2.2,y=jump_y,z=self.object:getvelocity().z*2.2})
-			end
-		end
+	if not self
+	or not pos then
+		error("[creatures] jump: self or pos is missing")
 	end
+	if not self.direction
+	or self.jump_timer <= timer then
+		return
+	end
+	self.jump_timer = 0
+	local p = {x=pos.x + self.direction.x, y=pos.y,z=pos.z + self.direction.z}-- pos
+	local n = minetest.get_node_or_nil(p)
+	if not n
+	or n.name == "default:fence_wood" then
+		return
+	end
+	local def = minetest.registered_items[n.name]
+	if not def
+	or not def.walkable
+	or def.groups.fences then
+		return
+	end
+	p.y = p.y+1
+	local n2 = minetest.get_node_or_nil(p)
+	if not n2 then
+		return
+	end
+	local def2 = minetest.registered_items[n2.name]
+	if not def2
+	or def2.walkable then
+		return
+	end
+	self.object:setvelocity({x=self.object:getvelocity().x*2.2,y=jump_y,z=self.object:getvelocity().z*2.2})
+	minetest.after(jump_y/20, function(self)
+		local vel = self.object:getvelocity()
+		if not vel then
+			-- it disappeared
+			return
+		end
+		self.object:setvelocity(vector.add(vel, {x=self.direction.x/5, y=0, z=self.direction.z/5}))
+	end, self)
 end
 
 function creatures.follow(self, items, radius)
 	local current_pos = self.object:getpos()
 	-- seach for players
 	for  _,object in ipairs(minetest.env:get_objects_inside_radius(current_pos, radius)) do
-		if object:is_player() then			
+		if object:is_player() then
 			local item = object:get_wielded_item()
 			local item_name = item:get_name()
 			if item and item_name and item_name ~= "" then
