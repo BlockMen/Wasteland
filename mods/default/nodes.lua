@@ -61,7 +61,7 @@ minetest.register_node("default:stone_with_gold", {
 	sounds = default.node_sound_stone_defaults(),
 	stack_max = 40,
 })
-	
+
 minetest.register_node("default:stone_with_diamond", {
 	description = "Diamond Ore",
 	tiles = {"default_stone.png^default_mineral_diamond.png"},
@@ -632,33 +632,89 @@ minetest.register_node("default:lava_source", {
 	groups = {lava=3, liquid=2, hot=3, igniter=1},
 })
 
-minetest.register_node("default:torch", {
+
+core.register_craftitem("default:torch", {
 	description = "Torch",
-	drawtype = "torchlike",
-	--tiles = {"default_torch_on_floor.png", "default_torch_on_ceiling.png", "default_torch.png"},
+	inventory_image = "default_torch.png",
+	wield_image = "default_torch.png",
+	wield_scale = {x = 1, y = 1, z = 1 + 1/16},
+	liquids_pointable = false,
+   	on_place = function(itemstack, placer, pointed_thing)
+		local above = pointed_thing.above
+		local under = pointed_thing.under
+		local wdir = minetest.dir_to_wallmounted({x = under.x - above.x, y = under.y - above.y, z = under.z - above.z})
+		if wdir < 1 then
+			return itemstack
+		end
+		local fakestack = itemstack
+		local retval = false
+		if wdir <= 1 then
+			retval = fakestack:set_name("default:torch_floor")
+		else
+			retval = fakestack:set_name("default:torch_wall")
+		end
+		if not retval then
+			return itemstack
+		end
+		itemstack, retval = minetest.item_place(fakestack, placer, pointed_thing, dir)
+		itemstack:set_name("default:torch")
+
+		return itemstack
+	end
+})
+
+core.register_node("default:torch_floor", {
+	description = "Torch",
+	inventory_image = "default_torch.png",
+	wield_image = "default_torch.png",
+	wield_scale = {x = 1, y = 1, z = 1 + 1/16},
+	drawtype = "mesh",
+	mesh = "torch_floor.obj",
 	tiles = {
-		{name="default_torch_on_floor_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}},
-		{name="default_torch_on_ceiling_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}},
-		{name="default_torch_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}}
+		{
+		    name = "default_torch_animated.png",
+		    animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 3.3}
+		}
 	},
-	is_ground_content = false,
-	inventory_image = "default_torch_on_floor.png",
-	wield_image = "default_torch_on_floor.png",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
 	walkable = false,
-	light_source = LIGHT_MAX-1,
+	light_source = 13,
+	groups = {choppy=2, dig_immediate=3, flammable=1, not_in_creative_inventory=1, attached_node=1, torch=1},
+	drop = "default:torch",
 	selection_box = {
 		type = "wallmounted",
-		wall_top = {-0.1, 0.5-0.6, -0.1, 0.1, 0.5, 0.1},
-		wall_bottom = {-0.1, -0.5, -0.1, 0.1, -0.5+0.6, 0.1},
-		wall_side = {-0.5, -0.3, -0.1, -0.5+0.3, 0.3, 0.1},
+		wall_top = {-1/16, -2/16, -1/16, 1/16, 0.5, 1/16},
+		wall_bottom = {-1/16, -0.5, -1/16, 1/16, 2/16, 1/16},
 	},
-	groups = {dig=default.dig.instant,flammable=1,attached_node=1,hot=2},
-	legacy_wallmounted = true,
-	sounds = default.node_sound_defaults(),
-	stack_max = 60,
+})
+
+core.register_node("default:torch_wall", {
+	inventory_image = "default_torch.png",
+	wield_image = "default_torch.png",
+	wield_scale = {x = 1, y = 1, z = 1 + 1/16},
+	drawtype = "mesh",
+	mesh = "torch_wall.obj",
+	tiles = {
+		{
+		    name = "default_torch_animated.png",
+		    animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 3.3}
+		}
+	},
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	sunlight_propagates = true,
+	walkable = false,
+	light_source = 13,
+	groups = {choppy=2, dig_immediate=3, flammable=1, not_in_creative_inventory=1, attached_node=1, torch=1},
+	drop = "default:torch",
+	selection_box = {
+		type = "wallmounted",
+		wall_top = {-0.1, -0.1, -0.1, 0.1, 0.5, 0.1},
+		wall_bottom = {-0.1, -0.5, -0.1, 0.1, 0.1, 0.1},
+		wall_side = {-0.5, -0.3, -0.1, -0.2, 0.3, 0.1},
+	},
 })
 
 minetest.register_node("default:sign_wall", {
@@ -699,7 +755,7 @@ minetest.register_node("default:sign_wall", {
 	stack_max = 60,
 })
 
-default.chest_formspec = 
+default.chest_formspec =
 	"size[8,9]"..
 	default.gui_bg..
 	default.gui_bg_img..
@@ -849,7 +905,7 @@ minetest.register_node("default:chest_locked", {
 })
 
 function default.furnace_active(pos, percent, item_percent)
-    local formspec = 
+    local formspec =
 	"size[8,8.5]"..
 	default.gui_bg..
 	default.gui_bg_img..
@@ -879,7 +935,7 @@ function default.get_furnace_active_formspec(pos, percent)
 	if cooked then
 		item_percent = meta:get_float("src_time")/cooked.time
 	end
-       
+
         return default.furnace_active(pos, percent, item_percent)
 end
 
@@ -1051,13 +1107,13 @@ minetest.register_abm({
 		local srclist = inv:get_list("src")
 		local cooked = nil
 		local aftercooked
-		
+
 		if srclist then
 			cooked, aftercooked = minetest.get_craft_result({method = "cooking", width = 1, items = srclist})
 		end
-		
+
 		local was_active = false
-		
+
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			was_active = true
 			meta:set_float("fuel_time", meta:get_float("fuel_time") + 1)
@@ -1075,7 +1131,7 @@ minetest.register_abm({
 				meta:set_string("src_time", 0)
 			end
 		end
-		
+
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			local percent = math.floor(meta:get_float("fuel_time") /
 					meta:get_float("fuel_totaltime") * 100)
@@ -1089,7 +1145,7 @@ minetest.register_abm({
 		local cooked = nil
 		local fuellist = inv:get_list("fuel")
 		local srclist = inv:get_list("src")
-		
+
 		if srclist then
 			cooked = minetest.get_craft_result({method = "cooking", width = 1, items = srclist})
 		end
@@ -1113,7 +1169,7 @@ minetest.register_abm({
 
 		meta:set_string("fuel_totaltime", fuel.time)
 		meta:set_string("fuel_time", 0)
-		
+
 		inv:set_stack("fuel", 1, afterfuel.items[1])
 	end,
 })
