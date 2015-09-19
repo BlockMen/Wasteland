@@ -23,7 +23,7 @@
 minetest.register_craftitem("creatures:flesh", {
 	description = "Flesh",
 	inventory_image = "creatures_flesh.png",
-	on_use = minetest.item_eat(4),
+	on_use = minetest.item_eat(2),
 	stack_max = 60,
 })
 
@@ -32,6 +32,20 @@ minetest.register_craftitem("creatures:rotten_flesh", {
 	inventory_image = "creatures_rotten_flesh.png",
 	on_use = minetest.item_eat(1),
 	stack_max = 60,
+})
+
+-- food
+minetest.register_craftitem("creatures:meat", {
+	description = "Cooked Meat",
+	inventory_image = "creatures_meat.png",
+	on_use = minetest.item_eat(4),
+	stack_max = 60,
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "creatures:meat",
+	recipe = "creatures:flesh",
 })
 
 -- spawn-eggs

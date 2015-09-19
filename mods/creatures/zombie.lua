@@ -35,7 +35,10 @@ local z_sound_normal = "creatures_zombie"
 local z_sound_hit = "creatures_zombie_hit"
 local z_sound_dead = "creatures_zombie_death"
 
-creatures.z_spawn_nodes = {"default:dry_dirt","default:dirt","default:mossycobble", "default:stone","default:dirt","default:desert_sand"}
+creatures.z_spawn_nodes = {
+	"default:dirt_with_grass","default:dirt","default:mossycobble",
+	"default:stone","default:dirt","default:desert_sand"
+}
 creatures.z_spawner_range = 17
 creatures.z_spawner_max_mobs = 6
 
@@ -56,24 +59,20 @@ end
 function z_hit(self)
 	local sound = z_sound_hit
 	if self.object:get_hp() < 1 then sound = z_sound_dead end
-	minetest.sound_play(sound, {pos = self.object:getpos(), max_hear_distance = 10, loop = false, gain = 0.4})
-	prop = {
-		mesh = z_mesh,
-		textures = {"creatures_zombie.png^creatures_zombie_hit.png"},
-	}
-	self.object:set_properties(prop)
-	self.object:set_animation({x=self.anim.walk_START,y=self.anim.walk_END}, 35, 0)
-	self.npc_anim = creatures.ANIM_WALK
+	minetest.sound_play(sound, {pos = self.object:getpos(), max_hear_distance = 18, loop = false, gain = 0.4})
+	self.object:settexturemod("^[colorize:#c4000099")
 	self.can_punch = false
+	self.object:set_animation({x = self.anim.walk_START, y = self.anim.walk_END}, 35, 0)
+	self.npc_anim = creatures.ANIM_WALK
 	minetest.after(0.4, function()
-		z_update_visuals_def(self)
+		self.can_punch = true
+		self.object:settexturemod("")
 		self.npc_anim = ""
 	end)
 end
 
-function z_update_visuals_def(self)
-	self.can_punch = true
-	prop = {
+function z_init_visuals(self)
+	local prop = {
 		mesh = z_mesh,
 		textures = z_texture,
 	}
@@ -116,10 +115,10 @@ ZOMBIE_DEF.get_staticdata = function(self)
 end
 
 ZOMBIE_DEF.on_activate = function(self, staticdata, dtime_s)
-	z_update_visuals_def(self)
+	z_init_visuals(self)
 	self.anim = z_get_animations()
 	self.object:set_animation({x=self.anim.stand_START,y=self.anim.stand_END}, z_animation_speed, 0)
-	self.npc_anim = ANIM_STAND
+	self.npc_anim = creatures.ANIM_STAND
 	self.object:setacceleration({x=0,y=-20,z=0})
 	self.state = 1
 	self.object:set_hp(z_hp)
@@ -143,7 +142,6 @@ ZOMBIE_DEF.on_punch = function(self, puncher, time_from_last_punch, tool_capabil
 	if not self.can_punch then return end
 
 	local my_pos = self.object:getpos()
-
 	if puncher ~= nil then
 		self.attacker = puncher
 		if time_from_last_punch >= 0.45 then
@@ -243,7 +241,7 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 
 	-- play random sound
 	if self.sound_timer > math.random(5,35) then
-		minetest.sound_play(z_sound_normal, {pos = current_pos, max_hear_distance = 10, gain = 0.7})
+		minetest.sound_play(z_sound_normal, {pos = current_pos, max_hear_distance = 18, gain = 0.7})
 		self.sound_timer = 0
 	end
 
@@ -351,7 +349,7 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 		--jump
 		local p = current_pos
 		p.y = p.y-0.5
-		creatures.jump(self, p, 7, 0.25)
+		creatures.jump(self, p, 7.4, 0.25)
 
 		if self.attacker ~= "" and minetest.setting_getbool("enable_damage") then
 			local s = current_pos

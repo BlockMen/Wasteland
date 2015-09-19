@@ -35,8 +35,8 @@ if not minetest.setting_getbool("only_peaceful_mobs") then
 			end
 			local n = minetest.get_node_or_nil(pos)
 			--if n and n.name and n.name ~= "default:stone" and math.random(1,4)>3 then return end
-			pos.y = pos.y+1
-			local ll = minetest.get_node_light(pos) or nil
+			pos.y = pos.y + 1
+			local ll = minetest.get_node_light(pos)
 			if not ll then
 				return
 			end
@@ -46,13 +46,16 @@ if not minetest.setting_getbool("only_peaceful_mobs") then
 			if ll < -1 then
 				return
 			end
+			if not minetest.get_node(pos).walkable then
+				return
+			end
+			pos.y = pos.y + 1
 			if minetest.get_node(pos).name ~= "air" then
 				return
 			end
-			pos.y = pos.y+1
-			if minetest.get_node(pos).name ~= "air" then
-				return
-			end
-			creatures.spawn(pos, math.random(1,3), "creatures:zombie", 2, 20)
+
+			pos.y = pos.y - 1
+
+			creatures.spawn(pos, math.random(1, 3), "creatures:zombie", 2, 20)
 		end})
 end
