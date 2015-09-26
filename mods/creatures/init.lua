@@ -1,3 +1,24 @@
+-------------------------------------------------------------------------
+-- Wasteland
+-- Copyright (C) 2015 BlockMen <blockmen2015@gmail.de>
+--
+-- This file is part of Wasteland
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-------------------------------------------------------------------------
+
+
 creatures = {}
 
 -- Max number of mobs per mapblock
@@ -104,7 +125,7 @@ function creatures.find_mates(pos, name, radius)
 	local res = false
 	for  _,obj in ipairs(minetest.get_objects_inside_radius(pos, radius)) do
 		if obj:is_player() then
-			player_near = true 
+			player_near = true
 		else
 			local entity = obj:get_luaentity()
 			if entity and entity.mob_name and entity.mob_name == name then
@@ -156,7 +177,7 @@ function creatures.jump(self, pos, jump_y, timer)
 			if n2 and n2.name then
 				def2 = minetest.registered_items[n2.name]
 			end
-			if def and def.walkable and def2 and not def2.walkable and not def.groups.fences and n.name ~= "default:fence_wood" then-- 
+			if def and def.walkable and def2 and not def2.walkable and not def.groups.fences and n.name ~= "default:fence_wood" then--
 				self.object:setvelocity({x=self.object:getvelocity().x*2.2,y=jump_y,z=self.object:getvelocity().z*2.2})
 			end
 		end
@@ -167,7 +188,7 @@ function creatures.follow(self, items, radius)
 	local current_pos = self.object:getpos()
 	-- seach for players
 	for  _,object in ipairs(minetest.env:get_objects_inside_radius(current_pos, radius)) do
-		if object:is_player() then			
+		if object:is_player() then
 			local item = object:get_wielded_item()
 			local item_name = item:get_name()
 			if item and item_name and item_name ~= "" then

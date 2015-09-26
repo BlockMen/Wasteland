@@ -1,3 +1,24 @@
+-------------------------------------------------------------------------
+-- Wasteland
+-- Copyright (C) 2015 BlockMen <blockmen2015@gmail.de>
+--
+-- This file is part of Wasteland
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-------------------------------------------------------------------------
+
+
 local chest_stuff = {
 	{name="default:old_apple", max = 1, rarity=1},
 	{name="default:old_bread", max = 1, rarity=6},
@@ -214,17 +235,17 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	if noise1 < 0.36 or noise1 > -0.36 then
 		local mpos = {x=math.random(minp.x,maxp.x), y=math.random(minp.y,maxp.y), z=math.random(minp.z,maxp.z)}
 		minetest.after(0.5, function()
-		 p2 = minetest.find_node_near(mpos, 25, {"default:dry_dirt"})	
+		 p2 = minetest.find_node_near(mpos, 25, {"default:dry_dirt"})
 		 if not p2 or p2 == nil or p2.y < 0 then return end
-		
+
 		  make(p2,{x=math.random(6,9),z=math.random(6,9)})
 		end)
 	end
 	if noise1 < -0.45 or noise1 > 0.45 then
-		
+
 		local mpos = {x=math.random(minp.x,maxp.x), y=math.random(minp.y,maxp.y), z=math.random(minp.z,maxp.z)}
 		minetest.after(0.5, function()
-		 p2 = minetest.find_node_near(mpos, 25, {"default:dry_dirt"})	
+		 p2 = minetest.find_node_near(mpos, 25, {"default:dry_dirt"})
 		 if not p2 or p2 == nil or p2.y < 0 then return end
 		  p2.y = p2.y+1
 		  local n = minetest.get_node(p2)

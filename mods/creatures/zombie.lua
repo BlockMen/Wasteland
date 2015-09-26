@@ -1,3 +1,24 @@
+-------------------------------------------------------------------------
+-- Wasteland
+-- Copyright (C) 2015 BlockMen <blockmen2015@gmail.de>
+--
+-- This file is part of Wasteland
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-------------------------------------------------------------------------
+
+
 local z_chillaxin_speed = 2
 local z_animation_speed = 15
 local z_mesh = "creatures_mob.x"
@@ -172,7 +193,7 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 		minetest.sound_play(z_sound_dead, {pos = current_pos, max_hear_distance = 10, gain = 0.9})
 		self.object:set_animation({x=self.anim.lay_START,y=self.anim.lay_END}, z_animation_speed, 0)
 		minetest.after(1, function()
-			self.object:remove()	
+			self.object:remove()
 			if self.object:get_hp() < 1 and creatures.drop_on_death then
 			    creatures.drop(current_pos, {{name=z_drop, count=math.random(0,2)}})
 			end
@@ -187,15 +208,15 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 		self.object:remove()
 		return
 	end
-	
+
 	-- die when in water, lava or sunlight
 	local wtime = minetest.env:get_timeofday()
 	local ll = minetest.env:get_node_light({x=current_pos.x,y=current_pos.y+1,z=current_pos.z}) or 0
 	local nn = nil
 	if current_node ~= nil then nn = current_node.name end
 	if nn ~= nil and nn == "default:water_source" or
-	   nn == "default:water_flowing" or 
-	   nn == "default:lava_source" or 
+	   nn == "default:water_flowing" or
+	   nn == "default:lava_source" or
 	   nn == "default:lava_flowing" or
 	   (wtime > 0.2 and wtime < 0.805 and current_pos.y > 0 and ll > 11) then
 		self.sound_timer = self.sound_timer + dtime
@@ -302,14 +323,14 @@ ZOMBIE_DEF.on_step = function(self, dtime)
 		if self.attacker ~= "" then
 			self.direction = {x = math.sin(self.yaw)*-1, y = -20, z = math.cos(self.yaw)}
 			self.state = 2
-		else 
+		else
 			self.state =1
 		end
 	end
 
 	-- WALKING
 	if self.state == 2 then
-		
+
 		if self.attacker ~= "" then
 			self.direction = {x=math.sin(self.yaw)*-1, y=-20, z=math.cos(self.yaw)}
 		end

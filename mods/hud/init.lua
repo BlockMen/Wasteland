@@ -1,3 +1,24 @@
+-------------------------------------------------------------------------
+-- Wasteland
+-- Copyright (C) 2015 BlockMen <blockmen2015@gmail.de>
+--
+-- This file is part of Wasteland
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-------------------------------------------------------------------------
+
+
 hud = {}
 
 -- HUD statbar values
@@ -41,7 +62,7 @@ end
 
 --load custom settings
 local set = io.open(minetest.get_modpath("hud").."/hud.conf", "r")
-if set then 
+if set then
 	dofile(minetest.get_modpath("hud").."/hud.conf")
 	set:close()
 else
@@ -215,7 +236,7 @@ hud.set_hunger = function(player)
 	if not inv  or not value then return nil end
 	if value > 30 then value = 30 end
 	if value < 0 then value = 0 end
-	
+
 	inv:set_stack("hunger", 1, ItemStack({name=":", count=value+1}))
 
 	return true
@@ -292,7 +313,7 @@ minetest.after(2.5, function()
 			 update_hud(player)
 			end
 		 end
-		
+
 		end
 		if timer > 4 then timer = 0 end
 		if timer2 > HUD_HUNGER_TICK then timer2 = 0 end

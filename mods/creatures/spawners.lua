@@ -1,3 +1,24 @@
+-------------------------------------------------------------------------
+-- Wasteland
+-- Copyright (C) 2015 BlockMen <blockmen2015@gmail.de>
+--
+-- This file is part of Wasteland
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-------------------------------------------------------------------------
+
+
 function creatures.register_spawner(mob,size,offset,mesh,texture,range,max,max_ll,min_ll,day_only)
 	local DUMMY  = {
 		hp_max = 1,
@@ -49,9 +70,9 @@ function creatures.register_spawner(mob,size,offset,mesh,texture,range,max,max_l
 		end,
 		on_destruct = function(pos)
 			for  _,obj in ipairs(minetest.env:get_objects_inside_radius(pos, 1)) do
-				if not obj:is_player() then 
+				if not obj:is_player() then
 					if obj ~= nil and obj:get_luaentity().m_name == "dummy" then
-						obj:remove()	
+						obj:remove()
 					end
 				end
 			end
@@ -70,7 +91,7 @@ function creatures.register_spawner(mob,size,offset,mesh,texture,range,max,max_l
 			if player_near then
 				if mobs < max then
 					pos.x = pos.x+1
-					local p = minetest.find_node_near(pos, 5, {"air"})	
+					local p = minetest.find_node_near(pos, 5, {"air"})
 					local ll = minetest.env:get_node_light(p)
 					local wtime = minetest.env:get_timeofday()
 					if not ll then return end
@@ -82,7 +103,7 @@ function creatures.register_spawner(mob,size,offset,mesh,texture,range,max,max_l
 					if not day_only then
 						if (wtime > 0.2 and wtime < 0.805) and pos.y > 0 then return end
 					end
-					
+
 					p.y = p.y-1
 					creatures.spawn(p, 1, "creatures:"..mob,range,max)
 				end
