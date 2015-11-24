@@ -10,3 +10,14 @@ Version 0.3:
 - Chests in ruins (and coffins) cant be opened anymore (items are dropped when cracked)
 - New formspec background
 - Many, many smaller fixes and tweaks
+
+
+Version 0.5 BETA:
+-----------------
+- Added mineralsand back (an restored original wasteland's sand texture)
+- Made torches 3D
+- Reduced water range
+- Updated hud and hunger
+- Removed remains of bronze (by andersje)
+- A lot of cleanup (code, textures)
+- Relicensed to GPL 3.0
