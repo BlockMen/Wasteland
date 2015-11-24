@@ -46,7 +46,7 @@ if not minetest.setting_getbool("only_peaceful_mobs") then
 			if ll < -1 then
 				return
 			end
-			if not minetest.get_node(pos).walkable then
+			if minetest.get_node(pos).name ~= "air" then
 				return
 			end
 			pos.y = pos.y + 1
