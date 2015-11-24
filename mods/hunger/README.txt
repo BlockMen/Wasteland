@@ -1,6 +1,6 @@
 Minetest mod "Hunger"
 =====================
-Version: 1.1
+Version: 1.1.3
 
 (c) Copyright BlockMen (2015)
 
