@@ -40,8 +40,8 @@ minetest.register_ore({
 	clust_scarcity = 8*8*8,
 	clust_num_ores = 8,
 	clust_size     = 3,
-	height_min     = -31000,
-	height_max     = 64,
+	y_min          = -31000,
+	y_max          = 64,
 })
 
 minetest.register_ore({
@@ -51,8 +51,8 @@ minetest.register_ore({
 	clust_scarcity = 24*24*24,
 	clust_num_ores = 27,
 	clust_size     = 6,
-	height_min     = -31000,
-	height_max     = 0,
+	y_min          = -31000,
+	y_max          = 0,
 	flags          = "absheight",
 })
 
@@ -63,8 +63,8 @@ minetest.register_ore({
 	clust_scarcity = 12*12*12,
 	clust_num_ores = 3,
 	clust_size     = 2,
-	height_min     = -15,
-	height_max     = 2,
+	y_min          = -15,
+	y_max          = 2,
 })
 
 minetest.register_ore({
@@ -74,8 +74,8 @@ minetest.register_ore({
 	clust_scarcity = 9*9*9,
 	clust_num_ores = 5,
 	clust_size     = 3,
-	height_min     = -63,
-	height_max     = -16,
+	y_min          = -63,
+	y_max          = -16,
 })
 
 minetest.register_ore({
@@ -85,8 +85,8 @@ minetest.register_ore({
 	clust_scarcity = 7*7*7,
 	clust_num_ores = 5,
 	clust_size     = 3,
-	height_min     = -31000,
-	height_max     = -64,
+	y_min          = -31000,
+	y_max          = -64,
 	flags          = "absheight",
 })
 
@@ -97,8 +97,8 @@ minetest.register_ore({
 	clust_scarcity = 24*24*24,
 	clust_num_ores = 27,
 	clust_size     = 6,
-	height_min     = -31000,
-	height_max     = -64,
+	y_min          = -31000,
+	y_max          = -64,
 	flags          = "absheight",
 })
 
@@ -109,8 +109,8 @@ minetest.register_ore({
 	clust_scarcity = 15*15*15,
 	clust_num_ores = 3,
 	clust_size     = 2,
-	height_min     = -255,
-	height_max     = -64,
+	y_min          = -255,
+	y_max          = -64,
 	flags          = "absheight",
 })
 
@@ -121,8 +121,8 @@ minetest.register_ore({
 	clust_scarcity = 13*13*13,
 	clust_num_ores = 5,
 	clust_size     = 3,
-	height_min     = -31000,
-	height_max     = -256,
+	y_min          = -31000,
+	y_max          = -256,
 	flags          = "absheight",
 })
 
@@ -133,8 +133,8 @@ minetest.register_ore({
 	clust_scarcity = 17*17*17,
 	clust_num_ores = 4,
 	clust_size     = 3,
-	height_min     = -255,
-	height_max     = -128,
+	y_min          = -255,
+	y_max          = -128,
 	flags          = "absheight",
 })
 
@@ -145,8 +145,8 @@ minetest.register_ore({
 	clust_scarcity = 15*15*15,
 	clust_num_ores = 4,
 	clust_size     = 3,
-	height_min     = -31000,
-	height_max     = -256,
+	y_min          = -31000,
+	y_max          = -256,
 	flags          = "absheight",
 })
 
@@ -157,8 +157,8 @@ minetest.register_ore({
 	clust_scarcity = 12*12*12,
 	clust_num_ores = 4,
 	clust_size     = 3,
-	height_min     = -63,
-	height_max     = -16,
+	y_min          = -63,
+	y_max          = -16,
 })
 
 minetest.register_ore({
@@ -168,8 +168,8 @@ minetest.register_ore({
 	clust_scarcity = 9*9*9,
 	clust_num_ores = 5,
 	clust_size     = 3,
-	height_min     = -31000,
-	height_max     = -64,
+	y_min          = -31000,
+	y_max          = -64,
 	flags          = "absheight",
 })
 
@@ -183,8 +183,8 @@ if minetest.setting_get("mg_name") == "indev" then
 		clust_scarcity = 40*40*40,
 		clust_num_ores = 8,
 		clust_size     = 3,
-		height_min     = 100,
-		height_max     = 31000,
+		y_min          = 100,
+		y_max          = 31000,
 	})
 
 	minetest.register_ore({
@@ -195,8 +195,8 @@ if minetest.setting_get("mg_name") == "indev" then
 		clust_scarcity = 50*50*50,
 		clust_num_ores = 5,
 		clust_size     = 2,
-		height_min     = 10000,
-		height_max     = 31000,
+		y_min          = 10000,
+		y_max          = 31000,
 	})
 
 	minetest.register_ore({
@@ -206,8 +206,8 @@ if minetest.setting_get("mg_name") == "indev" then
 		clust_scarcity = 20*20*20,
 		clust_num_ores = 5*5*3,
 		clust_size     = 5,
-		height_min     = 500,
-		height_max     = 31000,
+		y_min          = 500,
+		y_max          = 31000,
 	})
 
 	-- Underground springs
@@ -219,8 +219,8 @@ if minetest.setting_get("mg_name") == "indev" then
 		clust_scarcity = 25*25*25,
 		clust_num_ores = 8,
 		clust_size     = 3,
-		height_min     = -10000,
-		height_max     = -10,
+		y_min          = -10000,
+		y_max          = -10,
 	})
 
 	minetest.register_ore({
@@ -231,8 +231,8 @@ if minetest.setting_get("mg_name") == "indev" then
 		clust_scarcity = 35*35*35,
 		clust_num_ores = 5,
 		clust_size     = 2,
-		height_min     = -31000,
-		height_max     = -100,
+		y_min          = -31000,
+		y_max          = -100,
 	})
 end
 
@@ -243,8 +243,8 @@ minetest.register_ore({
 	clust_scarcity = 15*15*15,
 	clust_num_ores = 64,
 	clust_size     = 5,
-	height_max     = 0,
-	height_min     = -10,
+	y_max          = 0,
+	y_min          = -10,
 })
 
 function make_dead_tree(pos, size)
@@ -282,7 +282,7 @@ local function make_snow(min, max, data, va, rnd)
 	local y_max = SNOW_START + rnd
 	if y1 == 48 then
 		y_max = y1
-	end 
+	end
 	for yi = max.y, y_max, -1 do
 	 	for xi = x1, x2 do
 	  	for zi = z1, z2 do
@@ -325,7 +325,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	if not (by == -32 or by == 48) then
 		return
 	end
-	
+
 	local pr = PseudoRandom(seed+1)
 	if by == -32 then
 		-- dead trees
@@ -390,7 +390,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						break
 					end
 				end
-				
+
 				if ground_y then
 					local p = {x=x,y=ground_y+1,z=z}
 					local nn = minetest.get_node(p).name
@@ -404,13 +404,13 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						end
 					end
 				end
-				
+
 			end
 		end
 		end
 
-		
-		--data = 
+
+		--data =
 	end
 
 	-- snowcaps and mineral sand
@@ -432,7 +432,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		-- Generate mineral sand
 		local wait = true
 		data, wait = make_minerals(minp, maxp, data, va)
-		
+
 		while wait do
 			--wait for first manip to finish
 		end
@@ -440,11 +440,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	else
 		data = make_snow(minp, maxp, data, va, snow_height_rnd)
 	end
-	
+
 
 	-- write vmanip data
 	vm:set_data(data)
 	vm:calc_lighting()
 	vm:write_to_map(data)
 end)
-
